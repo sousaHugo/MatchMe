@@ -1,0 +1,58 @@
+version: '3.4'
+
+services:
+  matchme.candidatesapi:
+    image: ${DOCKER_REGISTRY-}matchmecandidatesapi
+    build:
+      context: .
+      dockerfile: ../MatchMe.Candidates/MatchMe.Candidates.Api/Dockerfile
+  
+  matchme.opportunitiesapi:
+    image: ${DOCKER_REGISTRY-}matchmeopportunitiesapi
+    build:
+      context: .
+      dockerfile: ../MatchMe.Opportunities/MatchMe.Opportunities.Api/Dockerfile  
+  
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodbdata:/data/db
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmqdata:/var/lib/rabbitmq
+    hostname: rabbitmq
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes: 
+      - postgresdb:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local.dev
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+volumes:
+  mongodbdata:
+  rabbitmqdata:
+  postgresdb:
+    driver: local
