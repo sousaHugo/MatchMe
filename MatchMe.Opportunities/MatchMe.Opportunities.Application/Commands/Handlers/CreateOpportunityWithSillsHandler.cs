@@ -30,9 +30,9 @@ namespace MatchMe.Opportunities.Application.Commands.Handlers
                 throw new OpportunityAlreadyExistsException(title);
 
 
-            var opportunity = _opportunityFactory.CreateWithSkills(id, title, description, skills.Select(a => new OpportunitySkill(a.Name, a.Experience, a.Mandatory)));
+            //var opportunity = _opportunityFactory.Create(id, title, description, skills.Select(a => new OpportunitySkill(a.Name, a.Experience, a.Mandatory)));
 
-            await _opportunityRepository.AddAsync(opportunity);
+            //await _opportunityRepository.AddAsync(opportunity);
 
             return true;
         }

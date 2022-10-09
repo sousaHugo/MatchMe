@@ -9,12 +9,12 @@ namespace MatchMe.Candidates.Domain.Entities
 {
     public class Candidate : AggregateRoot<Identity>
     {
-        private TextObject _firstName;
-        private TextObject _lastName;
+        private string _firstName;
+        private string _lastName;
         private DateOfBirthObject _dateOfBirth;
         private AddressObject _address;
-        private TextObject _nationality;
-        private TextObject _mobilePhone;
+        private string _nationality;
+        private string _mobilePhone;
         private EmailObject _email;
         private GenderObject _gender;
         private MaritalStatusObject _maritalStatus;
@@ -22,12 +22,12 @@ namespace MatchMe.Candidates.Domain.Entities
         private CitizenCardNumberObject _citizenCardNumber;
         private LinkedList<CandidateSkill> _skills = new();
 
-        public TextObject FirstName => _firstName;
-        public TextObject LastName => _lastName;
+        public string FirstName => _firstName;
+        public string LastName => _lastName;
         public DateOfBirthObject DateOfBirth => _dateOfBirth;
         public AddressObject Address => _address;
-        public TextObject Nationality => _nationality;
-        public TextObject MobilePhone => _mobilePhone;
+        public string Nationality => _nationality;
+        public string MobilePhone => _mobilePhone;
         public EmailObject Email => _email;
         public GenderObject Gender => _gender;
         public MaritalStatusObject MaritalStatus => _maritalStatus;
@@ -36,8 +36,8 @@ namespace MatchMe.Candidates.Domain.Entities
         public LinkedList<CandidateSkill> Skills => _skills;
         
         private Candidate() { }
-        public Candidate(TextObject FirstName, TextObject LastName, DateOfBirthObject DateOfBirth, AddressObject Address, GenderObject Gender, MaritalStatusObject MaritalStatus, TextObject Nationality,
-            TextObject MobilePhone, EmailObject Email, FiscalNumberObject FiscalNumber, CitizenCardNumberObject CitizenCardNumber)
+        public Candidate(string FirstName, string LastName, DateOfBirthObject DateOfBirth, AddressObject Address, GenderObject Gender, MaritalStatusObject MaritalStatus, string Nationality,
+            string MobilePhone, EmailObject Email, FiscalNumberObject FiscalNumber, CitizenCardNumberObject CitizenCardNumber)
         {
             Id = new IdGenerator(0).CreateId();
             _firstName = FirstName;
@@ -57,8 +57,8 @@ namespace MatchMe.Candidates.Domain.Entities
         }
   
         
-        public void Update(TextObject FirstName, TextObject LastName, DateOfBirthObject DateOfBirth, AddressObject Address, GenderObject Gender, MaritalStatusObject MaritalStatus, TextObject Nationality,
-            TextObject MobilePhone, EmailObject Email, FiscalNumberObject FiscalNumber, CitizenCardNumberObject CitizenCardNumber, IEnumerable<CandidateSkill> Skills)
+        public void Update(string FirstName, string LastName, DateOfBirthObject DateOfBirth, AddressObject Address, GenderObject Gender, MaritalStatusObject MaritalStatus, string Nationality,
+            string MobilePhone, EmailObject Email, FiscalNumberObject FiscalNumber, CitizenCardNumberObject CitizenCardNumber, IEnumerable<CandidateSkill> Skills)
         {
             _firstName = FirstName;
             _lastName = LastName;

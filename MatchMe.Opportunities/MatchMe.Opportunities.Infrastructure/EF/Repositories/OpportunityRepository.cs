@@ -1,6 +1,6 @@
-﻿using MatchMe.Opportunities.Domain.Entities;
+﻿using MatchMe.Common.Shared.Domain.ValueObjects;
+using MatchMe.Opportunities.Domain.Entities;
 using MatchMe.Opportunities.Domain.Repositories;
-using MatchMe.Opportunities.Domain.ValueObjects;
 using MatchMe.Opportunities.Infrastructure.EF.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +17,7 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Repositories
             _writeDbContext = WriteDbContext;
         }
 
-        public Task<Opportunity> GetAsync(OpportunityId Id)
+        public Task<Opportunity> GetAsync(Identity Id)
            => _opportunityDbSet.Include("_skills").SingleOrDefaultAsync(a => a.Id == Id);
 
         public async Task AddAsync(Opportunity Opportunity)

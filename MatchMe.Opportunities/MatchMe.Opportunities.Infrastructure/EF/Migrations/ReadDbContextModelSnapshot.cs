@@ -25,12 +25,47 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
 
             modelBuilder.Entity("MatchMe.Opportunities.Infrastructure.EF.Models.OpportunityReadModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("BeginDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ClientId")
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("MaxExperienceMonth")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal?>("MaxSalaryYear")
+                        .HasColumnType("numeric");
+
+                    b.Property<int?>("MinExperienceMonth")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal?>("MinSalaryYear")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Reference")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Responsible")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .HasColumnType("text");
@@ -45,27 +80,26 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
 
             modelBuilder.Entity("MatchMe.Opportunities.Infrastructure.EF.Models.OpportunitySkillReadModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<bool>("Mandatory")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("Max_Experience")
+                    b.Property<int?>("MaxExperience")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Min_Experience")
+                    b.Property<int?>("MinExperience")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("OpportunityId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Title")
+                    b.Property<string>("Name")
                         .HasColumnType("text");
+
+                    b.Property<long>("OpportunityId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -78,7 +112,9 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
                 {
                     b.HasOne("MatchMe.Opportunities.Infrastructure.EF.Models.OpportunityReadModel", "Opportunity")
                         .WithMany("Skills")
-                        .HasForeignKey("OpportunityId");
+                        .HasForeignKey("OpportunityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Opportunity");
                 });

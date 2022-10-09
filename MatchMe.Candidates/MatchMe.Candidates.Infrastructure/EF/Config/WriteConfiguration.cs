@@ -17,10 +17,10 @@ namespace MatchMe.Candidates.Infrastructure.EF.Config
             builder.Property(pr => pr.Id).HasConversion(id => id.Value, id => new Identity(id));
 
             builder.Property(a => a.FirstName)
-                .HasConversion(new ValueConverter<TextObject, string>(a => a.Value, a => new TextObject(a)));
+                .IsRequired();
 
             builder.Property(a => a.LastName)
-               .HasConversion(new ValueConverter<TextObject, string>(a => a.Value, a => new TextObject(a)));
+               .IsRequired();
 
             builder.Property(a => a.FiscalNumber)
               .HasConversion(new ValueConverter<FiscalNumberObject, string>(a => a.Value, a => new FiscalNumberObject(a)));
@@ -34,11 +34,10 @@ namespace MatchMe.Candidates.Infrastructure.EF.Config
             builder.Property(a => a.Address)
                .HasConversion(new ValueConverter<AddressObject, string>(l => l.ToString(), l => AddressObject.Create(l)));
 
-            builder.Property(a => a.Nationality)
-              .HasConversion(new ValueConverter<TextObject, string>(a => a.Value, a => new TextObject(a)));
+            builder.Property(a => a.Nationality).IsRequired();
 
             builder.Property(a => a.MobilePhone)
-              .HasConversion(new ValueConverter<TextObject, string>(a => a.Value, a => new TextObject(a)));
+             .IsRequired();
 
             builder.Property(a => a.Email)
               .HasConversion(new ValueConverter<EmailObject, string>(a => a.Value, a => new EmailObject(a)));

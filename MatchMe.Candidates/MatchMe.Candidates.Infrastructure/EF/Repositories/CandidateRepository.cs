@@ -18,7 +18,7 @@ namespace MatchMe.Candidates.Infrastructure.EF.Repositories
             _writeDbContext = WriteDbContext;
         }
         public Task<Candidate> GetAsync(Identity Id, CancellationToken CancellationToken)
-        => _candidateDbSet.Include("_skills").SingleOrDefaultAsync(a => a.Id == Id, CancellationToken);
+        => _candidateDbSet.Include(a => a.Skills).SingleOrDefaultAsync(a => a.Id == Id, CancellationToken);
 
         public async Task AddAsync(Candidate Candidate, CancellationToken CancellationToken)
         {

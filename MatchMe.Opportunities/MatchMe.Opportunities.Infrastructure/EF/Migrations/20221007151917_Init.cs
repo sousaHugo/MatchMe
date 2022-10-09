@@ -1,11 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
 {
-    public partial class Init_Read : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,9 +18,21 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
                 schema: "opportunities",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "text", nullable: true),
+                    Reference = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
+                    ClientId = table.Column<string>(type: "text", nullable: true),
+                    Responsible = table.Column<string>(type: "text", nullable: true),
+                    Location = table.Column<string>(type: "text", nullable: true),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    BeginDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    MinSalaryYear = table.Column<decimal>(type: "numeric", nullable: true),
+                    MaxSalaryYear = table.Column<decimal>(type: "numeric", nullable: true),
+                    MinExperienceMonth = table.Column<int>(type: "integer", nullable: true),
+                    MaxExperienceMonth = table.Column<int>(type: "integer", nullable: true),
                     Version = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -32,13 +45,13 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
                 schema: "opportunities",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    Min_Experience = table.Column<int>(type: "integer", nullable: false),
-                    Max_Experience = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    MinExperience = table.Column<int>(type: "integer", nullable: true),
+                    MaxExperience = table.Column<int>(type: "integer", nullable: true),
                     Mandatory = table.Column<bool>(type: "boolean", nullable: false),
-                    OpportunityId = table.Column<Guid>(type: "uuid", nullable: true)
+                    OpportunityId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,7 +61,8 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
                         column: x => x.OpportunityId,
                         principalSchema: "opportunities",
                         principalTable: "Opportunity",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

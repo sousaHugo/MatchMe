@@ -2,12 +2,12 @@
 {
     public class OpportunitySkillReadModel
     {
-        public Guid Id { get; set; }
-        public string Title { get; }
-        public string Description { get; }
-        public int Min_Experience { get; }
-        public int Max_Experience { get; }
+        public long Id { get; set; }
+        public string Name { get; }
+        public int? MinExperience { get; }
+        public int? MaxExperience { get; }
         public bool Mandatory { get; init; }
         public OpportunityReadModel Opportunity { get; set; }
+        public long OpportunityId { get; set; }
     }
 }

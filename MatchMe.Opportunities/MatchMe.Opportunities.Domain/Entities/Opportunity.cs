@@ -1,28 +1,63 @@
 ﻿using MatchMe.Common.Shared.Domain;
+using MatchMe.Common.Shared.Domain.ValueObjects;
+using MatchMe.Opportunities.Domain.Entities.ValueObjects;
 using MatchMe.Opportunities.Domain.Events;
 using MatchMe.Opportunities.Domain.Exceptions;
-using MatchMe.Opportunities.Domain.ValueObjects;
 
 namespace MatchMe.Opportunities.Domain.Entities
 {
-    public class Opportunity : AggregateRoot<OpportunityId>
+    public class Opportunity : AggregateRoot<Identity>
     {
-        public OpportunityId Id { get; }
-
-        private OpportunityName _title;
-
-        private OpportunityDescription _descritption;
-
+        private string _title;
+        private string _reference;
+        private string _descritption;
+        private string _clientId;
+        private string _responsible;
+        private string _location;
+        private OpportunityStatusObject _status;
+        private DateTime _beginDate;
+        private DateTime _endDate;
+        private decimal? _minSalaryYear;
+        private decimal? _maxSalaryYear;
+        private int? _minExperienceMonth;
+        private int? _maxExperienceMonth;
         private readonly LinkedList<OpportunitySkill> _skills = new();
+
+        public string Title => _title;
+        public string Reference => _reference;
+        public string Descritption => _descritption;
+        public string ClientId => _clientId;
+        public string Responsible => _responsible;
+        public string Location => _location;
+        public OpportunityStatusObject Status => _status;
+        public DateTime BeginDate => _beginDate;
+        public DateTime EndDate => _endDate;
+        public decimal? MinSalaryYear => _minSalaryYear;
+        public decimal? MaxSalaryYear => _maxSalaryYear;
+        public int? MinExperienceMonth => _minExperienceMonth;
+        public int? MaxExperienceMonth => _maxExperienceMonth;
+        public LinkedList<OpportunitySkill> Skills => _skills;
 
         private Opportunity() { }
 
-        internal Opportunity(OpportunityId Id, OpportunityName Title, OpportunityDescription Description)
+        public Opportunity(string Title, string Reference, string Descritption, string ClientId, string Responsible, string Location, OpportunityStatusObject Status, DateTime BeginDate, DateTime EndDate,
+            decimal? MinSalaryYear, decimal? MaxSalaryYear, int? MinExperienceMonth, int? MaxExperienceMonth)
         {
-            this.Id = Id;
             _title = Title;
-            _descritption = Description;
+            _reference = Reference;
+            _descritption = Descritption;
+            _clientId = ClientId;
+            _responsible = Responsible;
+            _location = Location;
+            _status = Status;
+            _beginDate = BeginDate;
+            _endDate = EndDate;
+            _minSalaryYear = MinSalaryYear;
+            _maxSalaryYear = MaxSalaryYear;
+            _minExperienceMonth = MinExperienceMonth;
+            _maxExperienceMonth = MaxExperienceMonth;
         }
+
         public void AddSkill(OpportunitySkill Skill)
         {
             var alreadyExists = _skills.Any(a => a.Name == Skill.Name);
@@ -44,11 +79,8 @@ namespace MatchMe.Opportunities.Domain.Entities
         public void MandatorySkill(string SkillName)
         {
             var skill = GetSkill(SkillName);
-            var newSkill = skill with
-            {
-                Mandatory = true
-            };
-
+            var newSkill = skill.IsMandatory(true);
+            
             _skills.Find(skill).Value = newSkill;
             AddEvent(new OpportunitySkillMandatoryUpdateEvent(this, skill));
         }

@@ -6,6 +6,7 @@ using MatchMe.Opportunities.Infrastructure.EF.Config;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using OpportunitySkill = MatchMe.Opportunities.Domain.Entities.OpportunitySkill;
 
 namespace MatchMe.Opportunities.Infrastructure.EF.Contexts
 {

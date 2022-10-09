@@ -1,6 +1,6 @@
 ﻿using MatchMe.Common.Shared.Domain;
 using MatchMe.Opportunities.Domain.Entities;
-using MatchMe.Opportunities.Domain.ValueObjects;
+using OpportunitySkill = MatchMe.Opportunities.Domain.Entities.OpportunitySkill;
 
 namespace MatchMe.Opportunities.Domain.Events
 {

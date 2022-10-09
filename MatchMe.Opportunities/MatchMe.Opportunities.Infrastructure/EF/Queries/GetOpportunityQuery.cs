@@ -5,6 +5,6 @@ namespace MatchMe.Opportunities.Infrastructure.Queries
 {
     public class GetOpportunityQuery : IRequest<OpportunityDto>
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
     }
 }

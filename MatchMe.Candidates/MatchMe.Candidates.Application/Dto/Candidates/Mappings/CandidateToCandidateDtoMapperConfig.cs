@@ -9,11 +9,11 @@ namespace MatchMe.Candidates.Application.Dto.Candidates.Mappings
         {
             TypeAdapterConfig<Candidate, CandidateGetDto>
                     .NewConfig()
-                    .Map(dest => dest.FirstName, src => src.FirstName.Value)
-                    .Map(dest => dest.LastName, src => src.LastName.Value)
+                    .Map(dest => dest.FirstName, src => src.FirstName)
+                    .Map(dest => dest.LastName, src => src.LastName)
                     .Map(dest => dest.DateOfBirth, src => src.DateOfBirth.Value)
-                    .Map(dest => dest.Nationality, src => src.Nationality.Value)
-                    .Map(dest => dest.MobilePhone, src => src.MobilePhone.Value)
+                    .Map(dest => dest.Nationality, src => src.Nationality)
+                    .Map(dest => dest.MobilePhone, src => src.MobilePhone)
                     .Map(dest => dest.Email, src => src.Email.Value)
                     .Map(dest => dest.Gender, src => src.Gender.Value)
                     .Map(dest => dest.MaritalStatus, src => src.MaritalStatus.Value)

@@ -1,10 +1,5 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using MatchMe.Common.Shared.Domain.ValueObjects;
 namespace MatchMe.Common.Shared.FluentValidation
 {
     public abstract class Validator<T> : AbstractValidator<T>
