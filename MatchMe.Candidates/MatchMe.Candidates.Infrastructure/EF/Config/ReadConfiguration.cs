@@ -15,6 +15,14 @@ namespace MatchMe.Candidates.Infrastructure.EF.Config
         {
             builder.ToTable(nameof(Candidate));
             builder.HasKey(x => x.Id);
+            builder.Property(a => a.FirstName);
+            builder.Property(a => a.LastName);
+            builder.Property(a => a.FiscalNumber);
+            builder.Property(a => a.CitizenCardNumber);
+            builder.Property(a => a.Email);
+            builder.Property(a => a.DateOfBirth);
+            builder.Property(a => a.MobilePhone);
+            builder.Property(a => a.Nationality);
             builder.Property(a => a.MaritalStatus)
               .HasConversion(new ValueConverter<MaritalStatusEnum, string>(a => a.ToString(), a => Enum.Parse<MaritalStatusEnum>(a)));
             builder.Property(a => a.Gender)

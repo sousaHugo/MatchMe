@@ -1,4 +1,7 @@
-﻿using MatchMe.Opportunities.Application.Dto;
+﻿using MatchMe.Opportunities.Application.Commands;
+using MatchMe.Opportunities.Application.Dto.Opportunity;
+using MatchMe.Opportunities.Application.Dto.Opportunity.Extensions;
+using MatchMe.Opportunities.Application.Dto.OpportunitySkill;
 using MatchMe.Opportunities.Application.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,16 +23,16 @@ namespace MatchMe.Opportunities.Api.Controllers
             _service = Service;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<OpportunityGetDto>> GetAllAsync()
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<IEnumerable<OpportunityDto>>> GetAllAsync()
         {
             var opportunities = await _service.GetAllAsync();
 
             return Ok(opportunities);
         }
         
-        [HttpGet("{Id:long}")]
-        public async Task<ActionResult<IEnumerable<OpportunityDto>>> GetByIdAsync([FromRoute] long Id)
+        [HttpGet("GetById/{Id:long}")]
+        public async Task<ActionResult<OpportunityDto>> GetByIdAsync([FromRoute] long Id)
         {
             var opportunity = await _service.GetByIdAsync(Id);
 
@@ -44,6 +47,30 @@ namespace MatchMe.Opportunities.Api.Controllers
             var opportunitySkills = await _service.GetSkillsByOpportunityIdAsync(OpportunityId);
 
             return Ok(opportunitySkills);
+        }
+        [HttpPost("Create")]
+        public async Task<IActionResult> CreateAsync([FromBody] OpportunityCreateDto RequestDto)
+        {
+            var requestValidation = RequestDto.Validate();
+
+            if (!requestValidation.IsValid)
+                return BadRequest(requestValidation.Response);
+
+            var createdOpportunity = await _mediator.Send(new CreateOpportunityCommand(RequestDto));
+
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = createdOpportunity }, RequestDto);
+        }
+        [HttpPost("CreateWithDetails")]
+        public async Task<IActionResult> CreateWithDetailsAsync([FromBody] OpportunityCreateWithDetailsDto RequestDto)
+        {
+            var requestValidation = RequestDto.Validate();
+
+            if (!requestValidation.IsValid)
+                return BadRequest(requestValidation.Response);
+
+            var createdOpportunity = await _mediator.Send(new CreateOpportunityWithDetailsCommand(RequestDto));
+
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = createdOpportunity }, RequestDto);
         }
     }
 }

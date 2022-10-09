@@ -1,4 +1,4 @@
-﻿using MatchMe.Opportunities.Application.Dto;
+﻿using MatchMe.Opportunities.Application.Dto.OpportunitySkill;
 
 namespace MatchMe.Opportunities.Infrastructure.EF.Models.Mapping
 {

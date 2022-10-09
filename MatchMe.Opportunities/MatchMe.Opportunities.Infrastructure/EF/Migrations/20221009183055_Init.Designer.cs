@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(ReadDbContext))]
-    [Migration("20221007151917_Init")]
+    [Migration("20221009183055_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,8 +66,9 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
                     b.Property<string>("Responsible")
                         .HasColumnType("text");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .HasColumnType("text");
@@ -100,12 +101,12 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<long>("OpportunityId")
+                    b.Property<long?>("OpportunityId1")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OpportunityId");
+                    b.HasIndex("OpportunityId1");
 
                     b.ToTable("OpportunitySkill", "opportunities");
                 });
@@ -114,9 +115,7 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
                 {
                     b.HasOne("MatchMe.Opportunities.Infrastructure.EF.Models.OpportunityReadModel", "Opportunity")
                         .WithMany("Skills")
-                        .HasForeignKey("OpportunityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OpportunityId1");
 
                     b.Navigation("Opportunity");
                 });

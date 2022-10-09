@@ -1,4 +1,4 @@
-﻿namespace MatchMe.Opportunities.Application.Dto
+﻿namespace MatchMe.Opportunities.Application.Dto.OpportunitySkill
 {
     public class OpportunitySkillDto : OpportunitySkillBaseDto
     {

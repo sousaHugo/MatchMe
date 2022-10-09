@@ -1,4 +1,5 @@
-﻿using MatchMe.Opportunities.Application.Dto;
+﻿using MatchMe.Opportunities.Application.Dto.Opportunity;
+using MatchMe.Opportunities.Application.Dto.OpportunitySkill;
 using MatchMe.Opportunities.Application.Services;
 using MatchMe.Opportunities.Infrastructure.EF.Contexts;
 using MatchMe.Opportunities.Infrastructure.EF.Models;

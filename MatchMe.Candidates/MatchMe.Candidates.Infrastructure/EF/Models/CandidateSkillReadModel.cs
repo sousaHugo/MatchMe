@@ -7,7 +7,7 @@ namespace MatchMe.Candidates.Infrastructure.EF.Models
         public string Name { get; }
         public int Experience { get; }
         public SkillLevelEnum Level { get;  }
-        public CandidateReadModel Candidate { get; set; }
-        public long CandidateId { get; set; }
+        public CandidateReadModel Candidate { get; }
+        public long CandidateId { get; }
     }
 }

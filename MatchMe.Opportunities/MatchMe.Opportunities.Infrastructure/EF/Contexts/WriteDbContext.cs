@@ -33,9 +33,9 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Contexts
              .Ignore(x => x.Events);
         }
 
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public override async Task<int> SaveChangesAsync(CancellationToken CancellationToken = default)
         {
-            var result = await base.SaveChangesAsync(cancellationToken);
+            var result = await base.SaveChangesAsync(CancellationToken);
 
             var events = ChangeTracker.Entries<AggregateRoot<Identity>>()
                     .Select(x => x.Entity.Events)
@@ -49,7 +49,7 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Contexts
 
                 _logger.LogInformation("New domain event {Event}", @event.GetType().Name);
 
-                await _publisher.Publish(@event, cancellationToken);
+                await _publisher.Publish(@event, CancellationToken);
             }
 
             return result;

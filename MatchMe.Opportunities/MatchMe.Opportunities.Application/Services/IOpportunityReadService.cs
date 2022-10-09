@@ -1,4 +1,5 @@
-﻿using MatchMe.Opportunities.Application.Dto;
+﻿using MatchMe.Opportunities.Application.Dto.Opportunity;
+using MatchMe.Opportunities.Application.Dto.OpportunitySkill;
 
 namespace MatchMe.Opportunities.Application.Services
 {

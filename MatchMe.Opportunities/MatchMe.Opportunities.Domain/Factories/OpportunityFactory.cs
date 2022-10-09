@@ -1,21 +1,21 @@
-﻿using MatchMe.Common.Shared.Domain.ValueObjects;
+﻿using MatchMe.Common.Shared.Constants.Enums;
 using MatchMe.Opportunities.Domain.Entities;
+using MatchMe.Opportunities.Domain.Entities.Helpers;
 using MatchMe.Opportunities.Domain.Entities.ValueObjects;
-using MatchMe.Opportunities.Domain.ValueObjects;
 using OpportunitySkill = MatchMe.Opportunities.Domain.Entities.OpportunitySkill;
 
 namespace MatchMe.Opportunities.Domain.Factories
 {
     public sealed class OpportunityFactory : IOpportunityFactory
     {
-        public Opportunity Create(string Title, string Reference, string Descritption, string ClientId, string Responsible, string Location, OpportunityStatusObject Status, DateTime BeginDate, DateTime EndDate,
+        public Opportunity Create(string Title, string Description, string ClientId, string Responsible, string Location, DateTime BeginDate, DateTime EndDate,
             decimal? MinSalaryYear, decimal? MaxSalaryYear, int? MinExperienceMonth, int? MaxExperienceMonth)
-        => new(Title, Reference, Descritption, ClientId, Responsible, Location, Status, BeginDate, EndDate, MinSalaryYear, MaxSalaryYear, MinExperienceMonth, MaxExperienceMonth);
+        => new(Title, OpportunityHelper.GenerateReference(), Description, ClientId, Responsible, Location, new OpportunityStatusObject(OpportunityStatusEnum.Registered), BeginDate, EndDate, MinSalaryYear, MaxSalaryYear, MinExperienceMonth, MaxExperienceMonth);
 
-        public Opportunity Create(string Title, string Reference, string Descritption, string ClientId, string Responsible, string Location, OpportunityStatusObject Status, DateTime BeginDate, DateTime EndDate,
+        public Opportunity Create(string Title, string Description, string ClientId, string Responsible, string Location, DateTime BeginDate, DateTime EndDate,
             decimal? MinSalaryYear, decimal? MaxSalaryYear, int? MinExperienceMonth, int? MaxExperienceMonth, IEnumerable<OpportunitySkill> Skills)
         {
-            var opportunity = Create(Title, Reference, Descritption, ClientId, Responsible, Location, Status, BeginDate, EndDate, MinSalaryYear, MaxSalaryYear, MinExperienceMonth, MaxExperienceMonth);
+            var opportunity = Create(Title, Description, ClientId, Responsible, Location, BeginDate, EndDate, MinSalaryYear, MaxSalaryYear, MinExperienceMonth, MaxExperienceMonth);
 
             opportunity.AddSkills(Skills);
 

@@ -1,24 +1,29 @@
 ﻿using MatchMe.Common.Shared.Constants.Enums;
+using System.Collections.ObjectModel;
 
 namespace MatchMe.Opportunities.Infrastructure.EF.Models
 {
     public class OpportunityReadModel
     {
-        public long Id { get; set; }
-        public string Title { get; set; }
-        public string Reference { get; set; }
-        public string Description { get; set; }
-        public string ClientId { get; set; }
-        public string Responsible { get; set; }
-        public string Location { get; set; }
-        public OpportunityStatusEnum Status { get; set; }
-        public DateTime BeginDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public decimal? MinSalaryYear { get; set; }
-        public decimal? MaxSalaryYear { get; set; }
-        public int? MinExperienceMonth { get; set; }
-        public int? MaxExperienceMonth { get; set; }
-        public ICollection<OpportunitySkillReadModel> Skills { get; set; }
-        public int Version { get; set; }
+        public OpportunityReadModel()
+        {
+            Skills = new Collection<OpportunitySkillReadModel>();
+        }
+
+        public long Id { get; }
+        public string Title { get; }
+        public string Reference { get;  }
+        public string Description { get;  }
+        public string ClientId { get;  }
+        public string Responsible { get;  }
+        public string Location { get; }
+        public OpportunityStatusEnum Status { get; }
+        public DateTime BeginDate { get;  }
+        public DateTime EndDate { get;  }
+        public decimal? MinSalaryYear { get;  }
+        public decimal? MaxSalaryYear { get;  }
+        public int? MinExperienceMonth { get; }
+        public int? MaxExperienceMonth { get; }
+        public ICollection<OpportunitySkillReadModel> Skills { get; }
     }
 }

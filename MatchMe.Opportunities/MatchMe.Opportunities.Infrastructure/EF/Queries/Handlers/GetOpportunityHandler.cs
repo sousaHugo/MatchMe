@@ -1,6 +1,6 @@
 ﻿using Mapster;
 using MatchMe.Common.Shared.Queries;
-using MatchMe.Opportunities.Application.Dto;
+using MatchMe.Opportunities.Application.Dto.Opportunity;
 using MatchMe.Opportunities.Infrastructure.EF.Contexts;
 using MatchMe.Opportunities.Infrastructure.EF.Models;
 using Microsoft.EntityFrameworkCore;

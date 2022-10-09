@@ -7,9 +7,9 @@ namespace MatchMe.Opportunities.Domain.Factories
 {
     public interface IOpportunityFactory
     {
-        Opportunity Create(string Title, string Reference, string Descritption, string ClientId, string Responsible, string Location, OpportunityStatusObject Status, DateTime BeginDate, DateTime EndDate,
+        Opportunity Create(string Title, string Description, string ClientId, string Responsible, string Location, DateTime BeginDate, DateTime EndDate,
             decimal? MinSalaryYear, decimal? MaxSalaryYear, int? MinExperienceMonth, int? MaxExperienceMonth);
-        Opportunity Create(string Title, string Reference, string Descritption, string ClientId, string Responsible, string Location, OpportunityStatusObject Status, DateTime BeginDate, DateTime EndDate,
+        Opportunity Create(string Title, string Description, string ClientId, string Responsible, string Location, DateTime BeginDate, DateTime EndDate,
             decimal? MinSalaryYear, decimal? MaxSalaryYear, int? MinExperienceMonth, int? MaxExperienceMonth, IEnumerable<OpportunitySkill> Skills);
     }
 }

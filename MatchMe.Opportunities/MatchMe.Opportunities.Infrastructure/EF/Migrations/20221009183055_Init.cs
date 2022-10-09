@@ -26,7 +26,7 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
                     ClientId = table.Column<string>(type: "text", nullable: true),
                     Responsible = table.Column<string>(type: "text", nullable: true),
                     Location = table.Column<string>(type: "text", nullable: true),
-                    Status = table.Column<int>(type: "integer", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     MinSalaryYear = table.Column<decimal>(type: "numeric", nullable: true),
@@ -51,25 +51,24 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
                     MinExperience = table.Column<int>(type: "integer", nullable: true),
                     MaxExperience = table.Column<int>(type: "integer", nullable: true),
                     Mandatory = table.Column<bool>(type: "boolean", nullable: false),
-                    OpportunityId = table.Column<long>(type: "bigint", nullable: false)
+                    OpportunityId1 = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OpportunitySkill", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OpportunitySkill_Opportunity_OpportunityId",
-                        column: x => x.OpportunityId,
+                        name: "FK_OpportunitySkill_Opportunity_OpportunityId1",
+                        column: x => x.OpportunityId1,
                         principalSchema: "opportunities",
                         principalTable: "Opportunity",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_OpportunitySkill_OpportunityId",
+                name: "IX_OpportunitySkill_OpportunityId1",
                 schema: "opportunities",
                 table: "OpportunitySkill",
-                column: "OpportunityId");
+                column: "OpportunityId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

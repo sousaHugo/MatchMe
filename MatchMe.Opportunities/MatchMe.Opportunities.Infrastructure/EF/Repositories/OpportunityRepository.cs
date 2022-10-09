@@ -17,24 +17,24 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Repositories
             _writeDbContext = WriteDbContext;
         }
 
-        public Task<Opportunity> GetAsync(Identity Id)
-           => _opportunityDbSet.Include("_skills").SingleOrDefaultAsync(a => a.Id == Id);
+        public Task<Opportunity> GetAsync(Identity Id, CancellationToken CancellationToken = default)
+           => _opportunityDbSet.Include(a => a.Skills).SingleOrDefaultAsync(a => a.Id == Id, CancellationToken);
 
-        public async Task AddAsync(Opportunity Opportunity)
+        public async Task AddAsync(Opportunity Opportunity, CancellationToken CancellationToken = default)
         {
-            await _opportunityDbSet.AddAsync(Opportunity);
-            await _writeDbContext.SaveChangesAsync();
+            await _opportunityDbSet.AddAsync(Opportunity, CancellationToken);
+            await _writeDbContext.SaveChangesAsync(CancellationToken);
         }
-        public async Task UpdateAsync(Opportunity Opportunity)
+        public async Task UpdateAsync(Opportunity Opportunity, CancellationToken CancellationToken = default)
         {
             _opportunityDbSet.Update(Opportunity);
-            await _writeDbContext.SaveChangesAsync();
+            await _writeDbContext.SaveChangesAsync(CancellationToken);
         }
 
-        public async Task DeleteAsync(Opportunity Opportunity)
+        public async Task DeleteAsync(Opportunity Opportunity, CancellationToken CancellationToken = default)
         {
             _opportunityDbSet.Remove(Opportunity);
-            await _writeDbContext.SaveChangesAsync();
+            await _writeDbContext.SaveChangesAsync(CancellationToken);
         }
     }
 }

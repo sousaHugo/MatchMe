@@ -1,4 +1,4 @@
-﻿using MatchMe.Opportunities.Application.Dto;
+﻿using MatchMe.Opportunities.Application.Dto.Opportunity;
 using MediatR;
 
 namespace MatchMe.Opportunities.Infrastructure.Queries

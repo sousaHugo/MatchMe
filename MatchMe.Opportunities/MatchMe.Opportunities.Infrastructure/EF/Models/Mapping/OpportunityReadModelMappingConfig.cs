@@ -1,4 +1,4 @@
-﻿using MatchMe.Opportunities.Application.Dto;
+﻿using MatchMe.Opportunities.Application.Dto.Opportunity;
 using System;
 using System.Collections.Generic;
 using System.Linq;

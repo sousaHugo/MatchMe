@@ -19,7 +19,7 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Config
             builder.Property(a => a.Title)
                 .IsRequired();
 
-            builder.Property(a => a.Descritption)
+            builder.Property(a => a.Description)
                .IsRequired();
 
             builder.Property(a => a.Reference)

@@ -5,9 +5,9 @@ namespace MatchMe.Opportunities.Domain.Repositories
 {
     public interface IOpportunityRepository
     {
-        Task<Opportunity> GetAsync(Identity Id);
-        Task AddAsync(Opportunity Opportunity);
-        Task UpdateAsync(Opportunity Opportunity);
-        Task DeleteAsync(Opportunity Opportunity);
+        Task<Opportunity> GetAsync(Identity Id, CancellationToken CancellationToken = default);
+        Task AddAsync(Opportunity Opportunity, CancellationToken CancellationToken = default);
+        Task UpdateAsync(Opportunity Opportunity, CancellationToken CancellationToken = default);
+        Task DeleteAsync(Opportunity Opportunity, CancellationToken CancellationToken = default);
     }
 }

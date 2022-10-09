@@ -1,4 +1,5 @@
-﻿using MatchMe.Common.Shared.Domain;
+﻿using IdGen;
+using MatchMe.Common.Shared.Domain;
 using MatchMe.Common.Shared.Domain.ValueObjects;
 using MatchMe.Common.Shared.Exceptions;
 using MatchMe.Opportunities.Domain.Entities.Extensions;
@@ -12,7 +13,7 @@ namespace MatchMe.Opportunities.Domain.Entities
     {
         private string _title;
         private string _reference;
-        private string _descritption;
+        private string _description;
         private string _clientId;
         private string _responsible;
         private string _location;
@@ -27,7 +28,7 @@ namespace MatchMe.Opportunities.Domain.Entities
 
         public string Title => _title;
         public string Reference => _reference;
-        public string Descritption => _descritption;
+        public string Description => _description;
         public string ClientId => _clientId;
         public string Responsible => _responsible;
         public string Location => _location;
@@ -42,12 +43,13 @@ namespace MatchMe.Opportunities.Domain.Entities
 
         private Opportunity() { }
 
-        public Opportunity(string Title, string Reference, string Descritption, string ClientId, string Responsible, string Location, OpportunityStatusObject Status, DateTime BeginDate, DateTime EndDate,
+        public Opportunity(string Title, string Reference, string Description, string ClientId, string Responsible, string Location, OpportunityStatusObject Status, DateTime BeginDate, DateTime EndDate,
             decimal? MinSalaryYear, decimal? MaxSalaryYear, int? MinExperienceMonth, int? MaxExperienceMonth)
         {
+            Id = new IdGenerator(0).CreateId();
             _title = Title;
             _reference = Reference;
-            _descritption = Descritption;
+            _description = Description;
             _clientId = ClientId;
             _responsible = Responsible;
             _location = Location;

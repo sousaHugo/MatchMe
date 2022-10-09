@@ -9,18 +9,17 @@ namespace MatchMe.Candidates.Infrastructure.EF.Models
         {
             Skills = new Collection<CandidateSkillReadModel>();
         }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public AddressReadModel Address { get; set; }
-        public string FiscalNumber { get; set; }
-        public string CitizenCardNumber { get; set; }
-        public string Nationality { get; set; }
-        public string MobilePhone { get; set; }
-        public string Email { get; set; }
-        public GenderEnum Gender { get; set; }
-        public MaritalStatusEnum MaritalStatus { get; set; }
-        public ICollection<CandidateSkillReadModel> Skills { get; set; }
-        public int Version { get; set; }
+        public string FirstName { get;  }
+        public string LastName { get;  }
+        public DateTime DateOfBirth { get;  }
+        public AddressReadModel Address { get;  }
+        public string FiscalNumber { get;  }
+        public string CitizenCardNumber { get;  }
+        public string Nationality { get;  }
+        public string MobilePhone { get;  }
+        public string Email { get;  }
+        public GenderEnum Gender { get;  }
+        public MaritalStatusEnum MaritalStatus { get;  }
+        public ICollection<CandidateSkillReadModel> Skills { get;  }
     }
 }
