@@ -9,16 +9,14 @@ namespace MatchMe.Common.Shared.Domain.ValueObjects
     public record SkillLevelObject
     {
         private SkillLevelObjectValidator _validator = new();
-        private SkillLevelObject()
+        public SkillLevelObject(SkillLevelEnum Value)
         {
+            this.Value = Value;
+
             var validationResult = _validator.Validate(this);
             if (!validationResult.IsValid)
                 throw new DomainEntitiesException($"The following errors ocurred on the {nameof(SkillLevelObject)} Domain:", validationResult.ToDomainEntityValidationException());
-        }
-        public SkillLevelObject(SkillLevelEnum Value)
-            :base()
-        {
-            this.Value = Value;
+
         }
         public SkillLevelEnum Value { get; }
 

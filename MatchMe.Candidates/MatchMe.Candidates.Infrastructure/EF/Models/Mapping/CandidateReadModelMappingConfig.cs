@@ -12,7 +12,7 @@ namespace MatchMe.Candidates.Infrastructure.EF.Models.Mapping
                 Id = CandidateReadModel.Id,
                 Email = CandidateReadModel.Email,
                 DateOfBirth = CandidateReadModel.DateOfBirth,
-                Address = new CandidateAddressDto(CandidateReadModel.Address),
+                Address = CandidateReadModel.Address != null ? CandidateReadModel.Address.AsCandidateAddressDto() : null,
                 CitizenCardNumber = CandidateReadModel.CitizenCardNumber,
                 FirstName = CandidateReadModel.FirstName,
                 LastName = CandidateReadModel.LastName,

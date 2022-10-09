@@ -8,16 +8,14 @@ namespace MatchMe.Common.Shared.Domain.ValueObjects
     public record MaritalStatusObject
     {
         private MaritalStatusObjectValidator _validator = new();
-        private MaritalStatusObject()
+        public MaritalStatusObject(MaritalStatusEnum Value) 
         {
+            this.Value = Value;
+
             var validationResult = _validator.Validate(this);
             if (!validationResult.IsValid)
                 throw new DomainEntitiesException($"The following errors ocurred on the {nameof(MaritalStatusObject)} Domain:", validationResult.ToDomainEntityValidationException());
-        }
-        public MaritalStatusObject(MaritalStatusEnum Value) 
-            :base()
-        {
-            this.Value = Value;
+
         }
         public MaritalStatusEnum Value { get; }
 

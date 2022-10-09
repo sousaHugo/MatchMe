@@ -20,6 +20,16 @@ namespace MatchMe.Candidates.Infrastructure.EF.Config
             builder.Property(a => a.Gender)
               .HasConversion(new ValueConverter<GenderEnum, string>(a => a.ToString(), a => Enum.Parse<GenderEnum>(a)));
             builder.HasMany(x => x.Skills).WithOne(o => o.Candidate);
+
+
+            builder.OwnsOne(x => x.Address, y =>
+            {
+                y.Property(y => y.Street).HasColumnName("Street").IsRequired();
+                y.Property(y => y.State).HasColumnName("State").IsRequired();
+                y.Property(y => y.PostCode).HasColumnName("PostCode").IsRequired();
+                y.Property(y => y.City).HasColumnName("City").IsRequired();
+                y.Property(y => y.Country).HasColumnName("Country").IsRequired();
+            });
         }
 
         public void Configure(EntityTypeBuilder<CandidateSkillReadModel> builder)

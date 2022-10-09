@@ -31,8 +31,17 @@ namespace MatchMe.Candidates.Infrastructure.EF.Config
             builder.Property(a => a.DateOfBirth)
                .HasConversion(new ValueConverter<DateOfBirthObject, DateTime>(a => a.Value, a => new DateOfBirthObject(a)));
 
-            builder.Property(a => a.Address)
-               .HasConversion(new ValueConverter<AddressObject, string>(l => l.ToString(), l => AddressObject.Create(l)));
+            //builder.Property(a => a.Address)
+            //   .HasConversion(new ValueConverter<AddressObject, string>(l => l.ToString(), l => AddressObject.Create(l)));
+
+            builder.OwnsOne(x => x.Address, y =>
+            {
+                y.Property(y => y.Street).HasColumnName("Street").IsRequired();
+                y.Property(y => y.State).HasColumnName("State").IsRequired();
+                y.Property(y => y.PostCode).HasColumnName("PostCode").IsRequired();
+                y.Property(y => y.City).HasColumnName("City").IsRequired();
+                y.Property(y => y.Country).HasColumnName("Country").IsRequired();
+            });
 
             builder.Property(a => a.Nationality).IsRequired();
 

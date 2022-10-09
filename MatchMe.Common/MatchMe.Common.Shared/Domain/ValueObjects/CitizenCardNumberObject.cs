@@ -8,16 +8,14 @@ namespace MatchMe.Common.Shared.Domain.ValueObjects
     public record CitizenCardNumberObject
     {
         private CitizenCardNumbertObjectValidator _validator = new();
-        private CitizenCardNumberObject()
+        public CitizenCardNumberObject(string Value)
         {
+            this.Value = Value;
+
             var validationResult = _validator.Validate(this);
             if (!validationResult.IsValid)
                 throw new DomainEntitiesException($"The following errors ocurred on the {nameof(CitizenCardNumberObject)} Domain:", validationResult.ToDomainEntityValidationException());
-        }
-        public CitizenCardNumberObject(string Value)
-            :base()
-        {
-            this.Value = Value;
+
         }
         public string Value { get; }
 

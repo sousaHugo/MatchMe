@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MatchMe.Candidates.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(ReadDbContext))]
-    [Migration("20221003140827_Init")]
+    [Migration("20221009135006_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,9 +33,6 @@ namespace MatchMe.Candidates.Infrastructure.EF.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Address")
-                        .HasColumnType("text");
-
                     b.Property<string>("CitizenCardNumber")
                         .HasColumnType("text");
 
@@ -52,12 +49,14 @@ namespace MatchMe.Candidates.Infrastructure.EF.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Gender")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("LastName")
                         .HasColumnType("text");
 
                     b.Property<string>("MaritalStatus")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("MobilePhone")
@@ -82,7 +81,7 @@ namespace MatchMe.Candidates.Infrastructure.EF.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("CandidateId")
+                    b.Property<long>("CandidateId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("Experience")
@@ -102,11 +101,56 @@ namespace MatchMe.Candidates.Infrastructure.EF.Migrations
                     b.ToTable("CandidateSkill", "candidates");
                 });
 
+            modelBuilder.Entity("MatchMe.Candidates.Infrastructure.EF.Models.CandidateReadModel", b =>
+                {
+                    b.OwnsOne("MatchMe.Candidates.Infrastructure.EF.Models.AddressReadModel", "Address", b1 =>
+                        {
+                            b1.Property<long>("CandidateReadModelId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("City");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("Country");
+
+                            b1.Property<string>("PostCode")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("PostCode");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("State");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("Street");
+
+                            b1.HasKey("CandidateReadModelId");
+
+                            b1.ToTable("Candidate", "candidates");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CandidateReadModelId");
+                        });
+
+                    b.Navigation("Address");
+                });
+
             modelBuilder.Entity("MatchMe.Candidates.Infrastructure.EF.Models.CandidateSkillReadModel", b =>
                 {
                     b.HasOne("MatchMe.Candidates.Infrastructure.EF.Models.CandidateReadModel", "Candidate")
                         .WithMany("Skills")
-                        .HasForeignKey("CandidateId");
+                        .HasForeignKey("CandidateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Candidate");
                 });

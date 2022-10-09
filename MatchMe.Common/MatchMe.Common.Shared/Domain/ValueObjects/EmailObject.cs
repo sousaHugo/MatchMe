@@ -7,16 +7,14 @@ namespace MatchMe.Common.Shared.Domain.ValueObjects
     public record EmailObject
     {
         private EmailObjectValidator _validator = new();
-        private EmailObject()
+        public EmailObject(string Value)
         {
+            this.Value = Value;
+
             var validationResult = _validator.Validate(this);
             if (!validationResult.IsValid)
                 throw new DomainEntitiesException($"The following errors ocurred on the {nameof(EmailObject)} Domain:", validationResult.ToDomainEntityValidationException());
-        }
-        public EmailObject(string Value)
-            : base()
-        {
-            this.Value = Value;
+
         }
         public string Value { get; }
       

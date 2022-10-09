@@ -3,6 +3,6 @@
     public class CandidateUpdateWithDetailsDto : CandidateBaseDto
     {
         public long Id { get; set; }
-        public List<CandidateSkillDto> Skills { get; set; }
+        public List<CandidateSkillDto> Skills { get; set; } = new();
     }
 }

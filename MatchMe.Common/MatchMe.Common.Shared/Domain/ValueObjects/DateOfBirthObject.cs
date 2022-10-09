@@ -7,16 +7,14 @@ namespace MatchMe.Common.Shared.Domain.ValueObjects
     public record DateOfBirthObject
     {
         private DateOfBirthObjectValidator _validator = new();
-        private DateOfBirthObject()
+        public DateOfBirthObject(DateTime Value) 
         {
+            this.Value = Value;
+
             var validationResult = _validator.Validate(this);
             if (!validationResult.IsValid)
                 throw new DomainEntitiesException($"The following errors ocurred on the {nameof(DateOfBirthObject)} Domain:", validationResult.ToDomainEntityValidationException());
-        }
-        public DateOfBirthObject(DateTime Value) 
-            :base()
-        {
-            this.Value = Value;
+
         }
         public DateTime Value { get; }
       

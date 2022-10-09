@@ -7,16 +7,14 @@ namespace MatchMe.Common.Shared.Domain.ValueObjects
     public record FiscalNumberObject
     {
         private FiscalNumberObjectValidator _validator = new();
-        private FiscalNumberObject()
+        public FiscalNumberObject(string Value)
         {
+            this.Value = Value;
+
             var validationResult = _validator.Validate(this);
             if (!validationResult.IsValid)
                 throw new DomainEntitiesException($"The following errors ocurred on the {nameof(FiscalNumberObject)} Domain:", validationResult.ToDomainEntityValidationException());
-        }
-        public FiscalNumberObject(string Value)
-            :base()
-        {
-            this.Value = Value;
+
         }
         public string Value { get; }
 
