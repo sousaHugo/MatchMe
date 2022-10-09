@@ -1,7 +1,6 @@
-﻿using MatchMe.Common.Shared.Commands;
-using MatchMe.Opportunities.Application.Commands;
-using MatchMe.Opportunities.Application.Dto;
-using MatchMe.Opportunities.Infrastructure.Queries;
+﻿using MatchMe.Opportunities.Application.Dto;
+using MatchMe.Opportunities.Application.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MatchMe.Opportunities.Api.Controllers
@@ -10,52 +9,41 @@ namespace MatchMe.Opportunities.Api.Controllers
     [Route("api/[controller]")]
     public class OpportunityController : ControllerBase
     {
-        //private readonly ICommandDispatcher _commandDispatcher;
-        //private readonly IQueryDispatcher _queryDispatcher;
+        private readonly IMediator _mediator;
+        private readonly IOpportunityReadService _service;
+        private readonly ILogger<OpportunityController> _logger;
 
-        public OpportunityController()
+        public OpportunityController(ILogger<OpportunityController> Logger, IMediator Mediator, IOpportunityReadService Service)
         {
-            //_commandDispatcher = CommandDispatcher;
-            //_queryDispatcher = QueryDispatcher;
+            _logger = Logger;
+            _mediator = Mediator;
+            _service = Service;
         }
 
-        [HttpGet("{Id:guid}")]
-        public async Task<ActionResult<OpportunityDto>> Get([FromRoute]GetOpportunityQuery query)
-        {
-        //    var result = await _queryDispatcher.QueryAsync(query);
-
-        //    if (result is null)
-        //        return NotFound();
-
-        //    return Ok(result);
-
-            return NotFound();
-        }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OpportunityDto>>> Get([FromRoute] SearchOpportunitiesQuery query)
+        public async Task<ActionResult<OpportunityGetDto>> GetAllAsync()
         {
-            //var result = await _queryDispatcher.QueryAsync(query);
+            var opportunities = await _service.GetAllAsync();
 
-            //if (result is null)
-            //    return NotFound();
-
-            //return Ok(result);
-
-            return NotFound();
+            return Ok(opportunities);
         }
-        [HttpPost]
-        public async Task<ActionResult<IEnumerable<OpportunityDto>>> Post([FromBody] CreateOpportunityWithSkills command)
+        
+        [HttpGet("{Id:long}")]
+        public async Task<ActionResult<IEnumerable<OpportunityDto>>> GetByIdAsync([FromRoute] long Id)
         {
-            //await _commandDispatcher.DispatchAsync(command);
+            var opportunity = await _service.GetByIdAsync(Id);
 
-            return CreatedAtAction(nameof(Get), new { id = command.Id }, null);
+            if (opportunity is null)
+                return NotFound();
+
+            return Ok(opportunity);
         }
-        //[HttpPut("{OpportunityId}/skills")]
-        //public async Task<ActionResult<IEnumerable<OpportunityDto>>> Put([FromBody] AddSkill command)
-        //{
-        //    await _commandDispatcher.DispatchAsync(command);
+        [HttpGet("{OpportunityId:long}/Skills")]
+        public async Task<ActionResult<IEnumerable<OpportunitySkillDto>>> GetSkillsAsync([FromRoute] long OpportunityId)
+        {
+            var opportunitySkills = await _service.GetSkillsByOpportunityIdAsync(OpportunityId);
 
-        //    return CreatedAtAction(nameof(Get), new { id = command.Id }, null);
-        //}
+            return Ok(opportunitySkills);
+        }
     }
 }

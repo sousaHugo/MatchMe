@@ -4,9 +4,9 @@ using OpportunitySkill = MatchMe.Opportunities.Domain.Entities.OpportunitySkill;
 
 namespace MatchMe.Opportunities.Domain.Events
 {
-    public class OpportunitySkillMandatoryUpdateEvent : DomainEvent
+    public class OpportunitySkillUpdateEvent : DomainEvent
     {
-        public OpportunitySkillMandatoryUpdateEvent(Opportunity Opportunity, OpportunitySkill OpportunitySkill)
+        public OpportunitySkillUpdateEvent(Opportunity Opportunity, OpportunitySkill OpportunitySkill)
         {
 
         }

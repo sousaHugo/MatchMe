@@ -23,13 +23,9 @@ namespace MatchMe.Opportunities.Domain.Entities
         public int MaxExperience => _maxExperience;
         public SkillLevelObject Level => _level;
         public bool Mandatory => _mandatory;
-        public void Update(string Name, int MinExperience, int MaxExperience, SkillLevelObject Level, bool Mandatory)
+        public OpportunitySkill Update(string Name, int MinExperience, int MaxExperience, SkillLevelObject Level, bool Mandatory)
         {
-            _name = Name;
-            _minExperience = MinExperience;
-            _maxExperience = MaxExperience;
-            _level = Level;
-            _mandatory = Mandatory;
+            return new OpportunitySkill(Id, Name, MinExperience, MaxExperience, Level, Mandatory);
         }
         public OpportunitySkill IsMandatory(bool Mandatory)
         {

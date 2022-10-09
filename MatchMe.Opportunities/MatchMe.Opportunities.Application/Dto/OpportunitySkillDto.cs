@@ -1,11 +1,8 @@
 ﻿namespace MatchMe.Opportunities.Application.Dto
 {
-    public class OpportunitySkillDto
+    public class OpportunitySkillDto : OpportunitySkillBaseDto
     {
-        public Guid Id { get; set; }
-        public string Name { get; }
-        public int Experience { get; }
-        public bool Mandatory { get; init; }
-
+        public long Id { get; set; }
+        public long OpportunityId { get; set; }
     }
 }

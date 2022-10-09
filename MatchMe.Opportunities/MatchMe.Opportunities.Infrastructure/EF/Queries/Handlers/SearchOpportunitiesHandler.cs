@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MatchMe.Opportunities.Infrastructure.Queries.Handlers
 {
-    internal sealed class SearchOpportunitiesHandler : IQueryHandler<SearchOpportunitiesQuery, IEnumerable<OpportunityDto>>
+    internal sealed class SearchOpportunitiesHandler : IQueryHandler<SearchOpportunitiesQuery, IEnumerable<OpportunityBaseDto>>
     {
         private readonly DbSet<OpportunityReadModel> _opportunityReadModel;
 
         public SearchOpportunitiesHandler(ReadDbContext DbContext) => _opportunityReadModel = DbContext.Opportunity;
 
-        public async Task<IEnumerable<OpportunityDto>> Handle(SearchOpportunitiesQuery Request, CancellationToken CancellationToken)
+        public async Task<IEnumerable<OpportunityBaseDto>> Handle(SearchOpportunitiesQuery Request, CancellationToken CancellationToken)
         {
             var dbQuery = _opportunityReadModel
                 .Include(a => a.Skills)
@@ -24,7 +24,7 @@ namespace MatchMe.Opportunities.Infrastructure.Queries.Handlers
                 dbQuery = dbQuery.Where(a => Microsoft.EntityFrameworkCore.EF.Functions.ILike(a.Title, $"%{Request.Search_Phrase}%"));
             }
 
-            return await dbQuery.Select(a => a.Adapt<OpportunityDto>()).AsNoTracking().ToListAsync();
+            return await dbQuery.Select(a => a.Adapt<OpportunityBaseDto>()).AsNoTracking().ToListAsync();
         }
     }
 }

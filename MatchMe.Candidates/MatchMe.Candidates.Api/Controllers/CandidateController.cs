@@ -4,7 +4,6 @@ using MatchMe.Candidates.Application.Dto.Candidates;
 using MatchMe.Candidates.Application.Dto.Candidates.Extensions;
 using MatchMe.Candidates.Application.Services;
 using MediatR;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MatchMe.Candidates.Api.Controllers

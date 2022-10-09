@@ -1,5 +1,6 @@
 ﻿using MatchMe.Common.Shared.Domain;
 using MatchMe.Common.Shared.Domain.ValueObjects;
+using MatchMe.Common.Shared.Exceptions;
 using MatchMe.Opportunities.Domain.Entities.ValueObjects;
 using MatchMe.Opportunities.Domain.Events;
 using MatchMe.Opportunities.Domain.Exceptions;
@@ -67,7 +68,6 @@ namespace MatchMe.Opportunities.Domain.Entities
             _skills.AddLast(Skill);
             AddEvent(new OpportunitySkillAddedEvent(this, Skill));
         }
-
         public void AddSkills(IEnumerable<OpportunitySkill> Skills)
         {
             foreach(var item in Skills)
@@ -75,23 +75,37 @@ namespace MatchMe.Opportunities.Domain.Entities
                 AddSkill(item);
             }
         }
+        public void UpdateSkill(OpportunitySkill Skill)
+        {
+            var skill = GetSkill(Skill);
 
+            var newSkill = skill.Update(Skill.Name, skill.MinExperience, skill.MaxExperience, skill.Level, skill.Mandatory);
+
+            _skills.Find(skill).Value = newSkill;
+            AddEvent(new OpportunitySkillUpdateEvent(this, skill));
+        }
+        public void RemoveSkill(OpportunitySkill Skill)
+        {
+            var skill = GetSkill(Skill);
+
+            _skills.Remove(Skill);
+
+            AddEvent(new OpportunitySkillRemoveEvent(this, skill));
+        }
         public void MandatorySkill(string SkillName)
         {
             var skill = GetSkill(SkillName);
             var newSkill = skill.IsMandatory(true);
             
             _skills.Find(skill).Value = newSkill;
-            AddEvent(new OpportunitySkillMandatoryUpdateEvent(this, skill));
+            AddEvent(new OpportunitySkillUpdateEvent(this, skill));
         }
-        private OpportunitySkill GetSkill(string SkillName)
+        private OpportunitySkill GetSkill(OpportunitySkill Skill)
         {
-            var skill = _skills.SingleOrDefault(a => a.Name == SkillName);
+            var skill = _skills.SingleOrDefault(a => a.Name == Skill.Name || (Skill.Id != 0 && a.Id == Skill.Id));
 
             if(skill is null)
-            {
-                throw new Exception("");
-            }
+                throw new DomainEntityValidationErrorException($"Skill {Skill.Name} doesn't belong to the Candidate.");
 
             return skill;
         }
