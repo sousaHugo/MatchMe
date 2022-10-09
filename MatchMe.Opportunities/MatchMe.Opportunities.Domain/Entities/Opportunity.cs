@@ -1,6 +1,7 @@
 ﻿using MatchMe.Common.Shared.Domain;
 using MatchMe.Common.Shared.Domain.ValueObjects;
 using MatchMe.Common.Shared.Exceptions;
+using MatchMe.Opportunities.Domain.Entities.Extensions;
 using MatchMe.Opportunities.Domain.Entities.ValueObjects;
 using MatchMe.Opportunities.Domain.Events;
 using MatchMe.Opportunities.Domain.Exceptions;
@@ -57,6 +58,9 @@ namespace MatchMe.Opportunities.Domain.Entities
             _maxSalaryYear = MaxSalaryYear;
             _minExperienceMonth = MinExperienceMonth;
             _maxExperienceMonth = MaxExperienceMonth;
+
+            this.Validate();
+            AddEvent(new OpportunityCreateEvent(this));
         }
 
         public void AddSkill(OpportunitySkill Skill)
@@ -91,14 +95,6 @@ namespace MatchMe.Opportunities.Domain.Entities
             _skills.Remove(Skill);
 
             AddEvent(new OpportunitySkillRemoveEvent(this, skill));
-        }
-        public void MandatorySkill(string SkillName)
-        {
-            var skill = GetSkill(SkillName);
-            var newSkill = skill.IsMandatory(true);
-            
-            _skills.Find(skill).Value = newSkill;
-            AddEvent(new OpportunitySkillUpdateEvent(this, skill));
         }
         private OpportunitySkill GetSkill(OpportunitySkill Skill)
         {

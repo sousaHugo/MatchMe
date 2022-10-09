@@ -1,14 +1,22 @@
 ﻿using FluentValidation;
 using MatchMe.Common.Shared.Constants.Enums;
+using MatchMe.Common.Shared.Domain.ValueObjects;
+using MatchMe.Common.Shared.Exceptions;
+using MatchMe.Common.Shared.Extensions;
 using MatchMe.Common.Shared.FluentValidation;
 
 namespace MatchMe.Opportunities.Domain.Entities.ValueObjects
 {
     public record OpportunityStatusObject
     {
+        private readonly OpportunityStatusObjectValidator _validator = new();
         public OpportunityStatusObject(OpportunityStatusEnum Value)
         {
             this.Value = Value;
+
+            var validationResult = _validator.Validate(this);
+            if(!validationResult.IsValid)
+                throw new DomainEntitiesException($"The following errors ocurred on the {nameof(OpportunityStatusObject)} Domain:", validationResult.ToDomainEntityValidationException());
         }
         public OpportunityStatusEnum Value { get; }
 
