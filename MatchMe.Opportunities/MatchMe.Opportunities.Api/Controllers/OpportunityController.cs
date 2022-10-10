@@ -72,5 +72,30 @@ namespace MatchMe.Opportunities.Api.Controllers
 
             return CreatedAtAction(nameof(GetByIdAsync), new { id = createdOpportunity }, RequestDto);
         }
+        [HttpPut("UpdateWithDetailsAsync/{Id:long}")]
+        public async Task<IActionResult> UpdateWithDetailsAsync(long Id, [FromBody] OpportunityUpdateWithDetailsDto RequestDto)
+        {
+            if (!await _service.ExistsByIdAsync(Id))
+                return NotFound();
+
+            var requestValidation = RequestDto.Validate(Id);
+            if (!requestValidation.IsValid)
+                return BadRequest(requestValidation.Response);
+
+
+            await _mediator.Send(new UpdateOpportunityCommand(RequestDto));
+
+            return NoContent();
+        }
+        [HttpDelete("Delete/{Id:long}")]
+        public async Task<IActionResult> DeleteAsync(long Id)
+        {
+            if (!await _service.ExistsByIdAsync(Id))
+                return NotFound();
+
+            await _mediator.Send(new DeleteOpportunityCommand(Id));
+
+            return NoContent();
+        }
     }
 }

@@ -3,8 +3,8 @@
 namespace MatchMe.Opportunities.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class OpportunitySkillController : ControllerBase
+    [Route("api/opportunity/[controller]")]
+    public class SkillController : ControllerBase
     {
     }
 }

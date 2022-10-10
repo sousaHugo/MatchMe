@@ -22,5 +22,12 @@ namespace MatchMe.Opportunities.Application.Dto.Opportunity.Extensions
 
             return new ValidationDto(validationResult.IsValid, new BadRequestReponseDto(Activity.Current?.Id, ValidationErrorHelper.ToDictionary(validationResult.Errors.Select(ve => $"{ve.PropertyName};{ve.ErrorMessage}"))));
         }
+        public static ValidationDto Validate(this OpportunityUpdateWithDetailsDto Dto, long? Id = null)
+        {
+            var validator = new OpportunityUpdateWithDetailsDtoValidator(Id);
+            var validationResult = validator.Validate(Dto);
+
+            return new ValidationDto(validationResult.IsValid, new BadRequestReponseDto(Activity.Current?.Id, ValidationErrorHelper.ToDictionary(validationResult.Errors.Select(ve => $"{ve.PropertyName};{ve.ErrorMessage}"))));
+        }
     }
 }

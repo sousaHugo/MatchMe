@@ -50,25 +50,27 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
                     Name = table.Column<string>(type: "text", nullable: true),
                     MinExperience = table.Column<int>(type: "integer", nullable: true),
                     MaxExperience = table.Column<int>(type: "integer", nullable: true),
+                    Level = table.Column<string>(type: "text", nullable: false),
                     Mandatory = table.Column<bool>(type: "boolean", nullable: false),
-                    OpportunityId1 = table.Column<long>(type: "bigint", nullable: true)
+                    OpportunityId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OpportunitySkill", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OpportunitySkill_Opportunity_OpportunityId1",
-                        column: x => x.OpportunityId1,
+                        name: "FK_OpportunitySkill_Opportunity_OpportunityId",
+                        column: x => x.OpportunityId,
                         principalSchema: "opportunities",
                         principalTable: "Opportunity",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_OpportunitySkill_OpportunityId1",
+                name: "IX_OpportunitySkill_OpportunityId",
                 schema: "opportunities",
                 table: "OpportunitySkill",
-                column: "OpportunityId1");
+                column: "OpportunityId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

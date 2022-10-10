@@ -5,6 +5,7 @@ namespace MatchMe.Opportunities.Application.Services
 {
     public interface IOpportunityReadService
     {
+        Task<bool> ExistsByIdAsync(long Id);
         Task<bool> ExistsByTitleAsync(string Name);
         Task<IEnumerable<OpportunityGetDto>> GetAllAsync();
         Task<OpportunityDto> GetByIdAsync(long Id);

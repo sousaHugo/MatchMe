@@ -10,7 +10,7 @@ namespace MatchMe.Opportunities.Domain.Entities
         private OpportunitySkill() { }
         public OpportunitySkill(long Id, string Name, int? MinExperience, int? MaxExperience, SkillLevelObject Level, bool Mandatory) 
         { 
-            this.Id = Id; 
+            this.Id = Id == 0 ? new IdGenerator(0).CreateId() : Id; 
             _name = Name; 
             _minExperience = MinExperience; 
             _maxExperience = MaxExperience; 

@@ -87,6 +87,10 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("Level")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("Mandatory")
                         .HasColumnType("boolean");
 
@@ -99,12 +103,12 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<long?>("OpportunityId1")
+                    b.Property<long>("OpportunityId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OpportunityId1");
+                    b.HasIndex("OpportunityId");
 
                     b.ToTable("OpportunitySkill", "opportunities");
                 });
@@ -113,7 +117,9 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Migrations
                 {
                     b.HasOne("MatchMe.Opportunities.Infrastructure.EF.Models.OpportunityReadModel", "Opportunity")
                         .WithMany("Skills")
-                        .HasForeignKey("OpportunityId1");
+                        .HasForeignKey("OpportunityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Opportunity");
                 });

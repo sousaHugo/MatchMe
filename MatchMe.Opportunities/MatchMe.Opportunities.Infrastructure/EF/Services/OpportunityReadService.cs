@@ -13,8 +13,12 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Services
         private readonly DbSet<OpportunityReadModel> _opportunity;
         public OpportunityReadService(ReadDbContext DbContext) => _opportunity = DbContext.Opportunity;
 
+        public Task<bool> ExistsByIdAsync(long Id)
+           => _opportunity.AnyAsync(a => a.Id == Id);
+
         public Task<bool> ExistsByTitleAsync(string Title)
             => _opportunity.AnyAsync(a => a.Title == Title);
+
         public async Task<IEnumerable<OpportunityGetDto>> GetAllAsync()
         {
             var allOpportunities = await _opportunity.AsNoTracking().ToListAsync();

@@ -6,6 +6,8 @@ using MatchMe.Opportunities.Domain.Entities.Extensions;
 using MatchMe.Opportunities.Domain.Entities.ValueObjects;
 using MatchMe.Opportunities.Domain.Events;
 using MatchMe.Opportunities.Domain.Exceptions;
+using MediatR;
+using System.Net;
 
 namespace MatchMe.Opportunities.Domain.Entities
 {
@@ -65,6 +67,53 @@ namespace MatchMe.Opportunities.Domain.Entities
             AddEvent(new OpportunityCreateEvent(this));
         }
 
+        public void Update(string Title, string Description, string ClientId, string Responsible, string Location, DateTime BeginDate, DateTime EndDate,
+            decimal? MinSalaryYear, decimal? MaxSalaryYear, int? MinExperienceMonth, int? MaxExperienceMonth, IEnumerable<OpportunitySkill> Skills)
+        {
+            _title = Title;
+            _description = Description;
+            _clientId = ClientId;
+            _responsible = Responsible;
+            _location = Location;
+            _beginDate = BeginDate;
+            _endDate = EndDate;
+            _minSalaryYear = MinSalaryYear;
+            _maxSalaryYear = MaxSalaryYear;
+            _minExperienceMonth = MinExperienceMonth;
+            _maxExperienceMonth = MaxExperienceMonth;
+
+            UpdateSkills(Skills);
+            this.Validate();
+            AddEvent(new OpportunityUpdateEvent(this));
+        }
+        private void UpdateSkills(IEnumerable<OpportunitySkill> Skills)
+        {
+            _skills.ToList().ForEach(skill =>
+            {
+                if (!Skills.Any(a => a.Id == skill.Id))
+                    RemoveSkill(skill);
+            });
+            AddOrUpdateSkills(Skills);
+        }
+        private void AddOrUpdateSkills(IEnumerable<OpportunitySkill> Skills)
+        {
+            Skills.ToList().ForEach(skill =>
+            {
+                AddOrUpdateSkill(skill);
+            });
+        }
+        private void AddOrUpdateSkill(OpportunitySkill Skill)
+        {
+            var existingSkill = _skills.FirstOrDefault(a => a.Id == Skill.Id);
+
+            if (existingSkill is null && _skills.Any(a => a.Name == Skill.Name))
+                throw new DomainEntityValidationErrorException($"Skill {Skill.Name} already belongs to the Opportunity.");
+            else if (existingSkill is not null)
+                UpdateSkill(Skill);
+            else
+                AddSkill(Skill);
+
+        }
         public void AddSkill(OpportunitySkill Skill)
         {
             var alreadyExists = _skills.Any(a => a.Name == Skill.Name);
@@ -85,7 +134,7 @@ namespace MatchMe.Opportunities.Domain.Entities
         {
             var skill = GetSkill(Skill);
 
-            var newSkill = skill.Update(Skill.Name, skill.MinExperience, skill.MaxExperience, skill.Level, skill.Mandatory);
+            var newSkill = skill.Update(Skill.Name, Skill.MinExperience, Skill.MaxExperience, Skill.Level, Skill.Mandatory);
 
             _skills.Find(skill).Value = newSkill;
             AddEvent(new OpportunitySkillUpdateEvent(this, skill));

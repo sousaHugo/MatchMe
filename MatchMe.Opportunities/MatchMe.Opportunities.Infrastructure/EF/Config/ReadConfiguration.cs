@@ -39,6 +39,7 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Config
             builder.Property(x => x.Mandatory);
             builder.Property(x => x.MinExperience);
             builder.Property(x => x.MaxExperience);
+            builder.Property(x => x.OpportunityId);
             builder.Property(a => a.Level)
             .HasConversion(new ValueConverter<SkillLevelEnum, string>(a => a.ToString(), a => Enum.Parse<SkillLevelEnum>(a)));
         }

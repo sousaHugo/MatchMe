@@ -12,5 +12,6 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Models
         public bool Mandatory { get; init; }
         public OpportunityReadModel Opportunity { get; }
         public long OpportunityId { get; }
+        
     }
 }
