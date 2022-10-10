@@ -1,5 +1,8 @@
 using MatchMe.Common.Shared.Extensions;
 using MatchMe.Opportunities.Application;
+using MatchMe.Opportunities.Domain;
+using MatchMe.Opportunities.Domain.Events;
+using MatchMe.Opportunities.Domain.Events.Handlers;
 using MatchMe.Opportunities.Infrastructure;
 using MediatR;
 

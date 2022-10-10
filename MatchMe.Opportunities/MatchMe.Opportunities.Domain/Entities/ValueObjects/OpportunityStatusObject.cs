@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MatchMe.Common.Shared.Constants.Enums;
-using MatchMe.Common.Shared.Domain.ValueObjects;
 using MatchMe.Common.Shared.Exceptions;
 using MatchMe.Common.Shared.Extensions;
 using MatchMe.Common.Shared.FluentValidation;

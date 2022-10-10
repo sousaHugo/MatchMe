@@ -1,12 +1,12 @@
 ﻿using MatchMe.Common.Shared.Domain.ValueObjects;
 using MatchMe.Common.Shared.Domain;
 using MatchMe.Opportunities.Domain.Entities;
-using MatchMe.Opportunities.Domain.ValueObjects;
 using MatchMe.Opportunities.Infrastructure.EF.Config;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OpportunitySkill = MatchMe.Opportunities.Domain.Entities.OpportunitySkill;
+using MatchMe.Opportunities.Domain.Events;
 
 namespace MatchMe.Opportunities.Infrastructure.EF.Contexts
 {
@@ -26,11 +26,9 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Contexts
             var configuration = new WriteConfiguration();
             ModelBuilder.ApplyConfiguration<Opportunity>(configuration);
             ModelBuilder.ApplyConfiguration<OpportunitySkill>(configuration);
-            
-            base.OnModelCreating(ModelBuilder);
+            ModelBuilder.Entity<Opportunity>().Ignore(x => x.Events);
 
-            ModelBuilder.Entity<Opportunity>()
-             .Ignore(x => x.Events);
+            base.OnModelCreating(ModelBuilder);
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken CancellationToken = default)
@@ -46,9 +44,6 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Contexts
             foreach (var @event in events)
             {
                 @event.IsPublished = true;
-
-                _logger.LogInformation("New domain event {Event}", @event.GetType().Name);
-
                 await _publisher.Publish(@event, CancellationToken);
             }
 

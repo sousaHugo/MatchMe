@@ -16,7 +16,6 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Contexts
             ModelBuilder.ApplyConfiguration<OpportunityReadModel>(configuration);
             ModelBuilder.ApplyConfiguration<OpportunitySkillReadModel>(configuration);
 
-
             base.OnModelCreating(ModelBuilder); 
         }
     }
