@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\MatchMe.Common\MatchMe.Common.Shared\MatchMe.Common.Shared.csproj" />
+    <ProjectReference Include="..\MatchMe.Opportunities.Integration\MatchMe.Opportunities.Integration.csproj" />
   </ItemGroup>
 
 </Project>

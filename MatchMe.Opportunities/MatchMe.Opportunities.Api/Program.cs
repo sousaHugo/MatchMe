@@ -1,4 +1,5 @@
 using MatchMe.Common.Shared.Extensions;
+using MatchMe.Common.Shared.MassTransitRabbitMq;
 using MatchMe.Opportunities.Application;
 using MatchMe.Opportunities.Domain;
 using MatchMe.Opportunities.Domain.Events;
@@ -19,6 +20,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMediatR(typeof(Program));
+builder.Services.AddMassTransitWithRabbitMq();
 builder.Services.AddShared();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);

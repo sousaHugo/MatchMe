@@ -1,4 +1,7 @@
-﻿using MediatR;
+﻿using MassTransit;
+using MatchMe.Opportunities.Integration.Dto;
+using MatchMe.Opportunities.Integration.Publishers;
+using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace MatchMe.Opportunities.Domain.Events.Handlers
@@ -7,14 +10,16 @@ namespace MatchMe.Opportunities.Domain.Events.Handlers
                                            INotificationHandler<OpportunityUpdateEvent>
     {
         private readonly ILogger<OpportunityEventHandler> _logger;
-
-        public OpportunityEventHandler(ILogger<OpportunityEventHandler> logger)
+        private readonly IOpportunityCreatedPublisher _publisher;
+        public OpportunityEventHandler(ILogger<OpportunityEventHandler> logger, IOpportunityCreatedPublisher Publisher)
         {
             _logger = logger;
+            _publisher = Publisher;
         }
         public Task Handle(OpportunityCreateEvent Event, CancellationToken CancellationToken)
         {
             _logger.LogInformation("Opportunity was Created: {0}", Event.Opportunity.Title);
+            _publisher.SendAsync(new OpportunityCreatedDto(Event.Opportunity.Id));
             return Task.CompletedTask;
         }
         public Task Handle(OpportunityUpdateEvent Event, CancellationToken CancellationToken)

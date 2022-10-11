@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchMe.Common.Shared", "..
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9960B038-6EA7-4910-9621-C2DB5A6E1D44}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchMe.Opportunities.Integration", "..\MatchMe.Opportunities\MatchMe.Opportunities.Integration\MatchMe.Opportunities.Integration.csproj", "{A99B6B17-C04C-4170-A0E0-EA3CDE2A75F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{9960B038-6EA7-4910-9621-C2DB5A6E1D44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9960B038-6EA7-4910-9621-C2DB5A6E1D44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9960B038-6EA7-4910-9621-C2DB5A6E1D44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A99B6B17-C04C-4170-A0E0-EA3CDE2A75F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A99B6B17-C04C-4170-A0E0-EA3CDE2A75F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A99B6B17-C04C-4170-A0E0-EA3CDE2A75F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A99B6B17-C04C-4170-A0E0-EA3CDE2A75F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +106,7 @@ Global
 		{D8DB7885-C80D-4206-A993-3B6521649AF0} = {8ED3D1D5-A854-4BEE-8F62-60B643200D57}
 		{6BCDC976-E8F8-49AC-AE1B-B96220557E67} = {8ED3D1D5-A854-4BEE-8F62-60B643200D57}
 		{C238A7B8-7D67-4ED7-9175-E962E4C0AAE3} = {4BF738D9-E946-4226-8538-C76C75E0C2DD}
+		{A99B6B17-C04C-4170-A0E0-EA3CDE2A75F9} = {8ED3D1D5-A854-4BEE-8F62-60B643200D57}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E0F023C-FAEA-4ED6-92DA-76EAF972BAED}

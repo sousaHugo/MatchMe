@@ -6,6 +6,7 @@ using MatchMe.Opportunities.Domain.Factories;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using MatchMe.Opportunities.Integration.Publishers;
 
 namespace MatchMe.Opportunities.Application
 {
@@ -22,6 +23,7 @@ namespace MatchMe.Opportunities.Application
             ServiceCollection.AddTransient<INotificationHandler<OpportunitySkillUpdateEvent>, OpportunitySkillEventHandler>();
             ServiceCollection.AddTransient<INotificationHandler<OpportunityUpdateEvent>, OpportunityEventHandler>();
 
+            ServiceCollection.AddTransient<IOpportunityCreatedPublisher, OpportunityCreatedPublisher>();
 
             return ServiceCollection;
         }
