@@ -1,4 +1,4 @@
-﻿using MatchMe.Opportunities.Integration.Dto;
+﻿using MatchMe.Common.Shared.Dtos.Integration.Opportunities;
 
 namespace MatchMe.Opportunities.Integration.Publishers
 {

@@ -13,6 +13,12 @@ services:
       context: .
       dockerfile: ../MatchMe.Opportunities/MatchMe.Opportunities.Api/Dockerfile  
   
+  matchme.matchapi:
+    image: ${DOCKER_REGISTRY-}matchmematchapi
+    build:
+      context: .
+      dockerfile: ../MatchMe.Match/MatchMe.Match.Api/Dockerfile  
+
   mongo:
     image: mongo
     container_name: mongo

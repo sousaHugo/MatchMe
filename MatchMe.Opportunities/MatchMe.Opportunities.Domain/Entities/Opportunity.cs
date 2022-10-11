@@ -11,7 +11,7 @@ namespace MatchMe.Opportunities.Domain.Entities
     public class Opportunity : AggregateRoot<Identity>
     {
         private string _title;
-        private string _reference;
+        private readonly string _reference;
         private string _description;
         private string _clientId;
         private string _responsible;

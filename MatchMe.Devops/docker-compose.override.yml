@@ -20,3 +20,13 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "8001:80"
+
+  matchme.matchapi:
+    image: ${DOCKER_REGISTRY-}matchmematchapi
+    build:
+      context: .
+      dockerfile: ../MatchMe.Match/MatchMe.Match.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8002:80"

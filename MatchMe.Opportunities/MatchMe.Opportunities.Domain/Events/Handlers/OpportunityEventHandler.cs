@@ -1,5 +1,4 @@
-﻿using MassTransit;
-using MatchMe.Opportunities.Integration.Dto;
+﻿using MatchMe.Common.Shared.Dtos.Integration.Opportunities;
 using MatchMe.Opportunities.Integration.Publishers;
 using MediatR;
 using Microsoft.Extensions.Logging;

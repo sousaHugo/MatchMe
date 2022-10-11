@@ -3,15 +3,16 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit" Version="8.0.6" />
+    <Folder Include="EF\Migrations\" />
+    <Folder Include="EF\Services\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\MatchMe.Common\MatchMe.Common.Shared\MatchMe.Common.Shared.csproj" />
+    <ProjectReference Include="..\MatchMe.Match.Application\MatchMe.Match.Application.csproj" />
   </ItemGroup>
 
 </Project>
