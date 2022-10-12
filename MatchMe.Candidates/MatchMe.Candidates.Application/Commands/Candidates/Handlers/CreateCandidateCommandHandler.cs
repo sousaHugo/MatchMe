@@ -1,7 +1,6 @@
 ﻿using MatchMe.Candidates.Application.Commands.Candidates;
 using MatchMe.Candidates.Application.Services;
 using MatchMe.Candidates.Domain.Entities;
-using MatchMe.Candidates.Domain.Factories;
 using MatchMe.Candidates.Domain.Repositories;
 using MatchMe.Common.Shared.Commands;
 using MatchMe.Common.Shared.Domain.ValueObjects;
@@ -12,13 +11,11 @@ namespace MatchMe.Candidates.Application.Commands.Handlers
     public class CreateCandidateCommandHandler : ICommandHandler<CreateCandidateCommand, long>
     {
         private readonly ICandidateRepository _candidateRepository;
-        private readonly ICandidateFactory _candidateFactory;
         private readonly ICandidateReadService _candidateReadService;
 
-        public CreateCandidateCommandHandler(ICandidateRepository CandidateRepository, ICandidateFactory CandidateFactory, ICandidateReadService CandidateReadService)
+        public CreateCandidateCommandHandler(ICandidateRepository CandidateRepository, ICandidateReadService CandidateReadService)
         {
             _candidateRepository = CandidateRepository;
-            _candidateFactory = CandidateFactory;
             _candidateReadService = CandidateReadService;
         }
 
@@ -32,7 +29,7 @@ namespace MatchMe.Candidates.Application.Commands.Handlers
 
             var candidateCreateDto = Request.CandidateCreateDto;
 
-            var candidate = _candidateFactory.Create(candidateCreateDto.FirstName, candidateCreateDto.LastName, candidateCreateDto.DateOfBirth, 
+            var candidate = Candidate.Create(candidateCreateDto.FirstName, candidateCreateDto.LastName, candidateCreateDto.DateOfBirth, 
                 new AddressObject(candidateCreateDto.Address.Street, candidateCreateDto.Address.City, candidateCreateDto.Address.State, candidateCreateDto.Address.PostCode, candidateCreateDto.Address.Country),
                 candidateCreateDto.Gender, candidateCreateDto.MaritalStatus, candidateCreateDto.Nationality, candidateCreateDto.MobilePhone,
                 candidateCreateDto.Email, candidateCreateDto.FiscalNumber, candidateCreateDto.CitizenCardNumber, candidateCreateDto.Skills.Select(a => new CandidateSkill(a.Name, a.Experience, a.Level)));
