@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using MassTransit;
+using MatchMe.Common.Shared.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

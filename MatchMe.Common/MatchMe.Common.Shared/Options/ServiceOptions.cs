@@ -1,4 +1,4 @@
-﻿namespace MatchMe.Common.Shared.MassTransitRabbitMq
+﻿namespace MatchMe.Common.Shared.Options
 {
     public class ServiceOptions
     {

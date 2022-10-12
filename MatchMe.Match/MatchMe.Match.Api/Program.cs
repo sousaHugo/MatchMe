@@ -1,17 +1,23 @@
-using MatchMe.Common.Shared.MassTransitRabbitMq;
+using MatchMe.Common.Shared.Extensions;
+using MatchMe.Common.Shared.Integration.Opportunities;
+using MatchMe.Common.Shared.MongoDb;
+using MatchMe.Match.Infrastructure;
 using MatchMe.Match.Integration;
-using MatchMe.Match.Integration.Consumers.Opportunities;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddRabbitMq();
+
+builder.Services.AddMongo()
+    .AddMongoRepository<OpportunityCreatedDto>("Opportunities");
+builder.Services.AddShared();
+builder.Services.AddIntegration();
+builder.Services.AddInfrastructure(builder.Configuration);
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

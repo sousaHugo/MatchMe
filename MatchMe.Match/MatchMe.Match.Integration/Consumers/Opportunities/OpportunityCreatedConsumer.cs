@@ -1,5 +1,6 @@
 ﻿using MassTransit;
-using MatchMe.Common.Shared.Dtos.Integration.Opportunities;
+using MatchMe.Common.Shared.Integration.Opportunities;
+using MatchMe.Common.Shared.MongoDb;
 using Microsoft.Extensions.Logging;
 
 namespace MatchMe.Match.Integration.Consumers.Opportunities
@@ -7,15 +8,18 @@ namespace MatchMe.Match.Integration.Consumers.Opportunities
     public class OpportunityCreatedConsumer : IConsumer<OpportunityCreatedDto>
     {
         private readonly ILogger<OpportunityCreatedConsumer> _logger;
-        public OpportunityCreatedConsumer(ILogger<OpportunityCreatedConsumer> Logger) => _logger = Logger;
+        private readonly IMongoRepository<OpportunityCreatedDto> _mongoRepository;
+
+        public OpportunityCreatedConsumer(ILogger<OpportunityCreatedConsumer> Logger, IMongoRepository<OpportunityCreatedDto> MongoRepository)
+        {
+            _logger = Logger;
+            _mongoRepository = MongoRepository;
+        }
         public async Task Consume(ConsumeContext<OpportunityCreatedDto> Context)
         {
             var message = Context.Message;
 
-            await Task.Run(() =>
-            {
-                _logger.LogInformation("Consumer: Opportunity was Created: {0}", message.OpportunityId);
-            });
+            await _mongoRepository.CreateAsync(message);
         }
     }
 }

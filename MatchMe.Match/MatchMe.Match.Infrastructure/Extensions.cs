@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using MatchMe.Match.Infrastructure.EF;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 namespace MatchMe.Match.Infrastructure
 {
-    internal class Extensions
+    public static class Extensions
     {
+        public static IServiceCollection AddInfrastructure(this IServiceCollection ServiceCollection, IConfiguration Configuration)
+        {
+            ServiceCollection.AddWriteReadDbContext(Configuration);
+
+            return ServiceCollection;
+        }
     }
 }

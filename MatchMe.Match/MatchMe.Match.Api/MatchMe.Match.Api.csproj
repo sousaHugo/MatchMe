@@ -12,10 +12,15 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
+		<PrivateAssets>all</PrivateAssets>
+		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\MatchMe.Common\MatchMe.Common.Shared\MatchMe.Common.Shared.csproj" />
+    <ProjectReference Include="..\MatchMe.Match.Infrastructure\MatchMe.Match.Infrastructure.csproj" />
     <ProjectReference Include="..\MatchMe.Match.Integration\MatchMe.Match.Integration.csproj" />
   </ItemGroup>
 

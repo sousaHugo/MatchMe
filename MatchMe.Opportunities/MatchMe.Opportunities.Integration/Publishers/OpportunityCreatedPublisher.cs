@@ -1,5 +1,5 @@
 ﻿using MassTransit;
-using MatchMe.Common.Shared.Dtos.Integration.Opportunities;
+using MatchMe.Common.Shared.Integration.Opportunities;
 
 namespace MatchMe.Opportunities.Integration.Publishers
 {

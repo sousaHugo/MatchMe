@@ -14,7 +14,7 @@ namespace MatchMe.Match.Infrastructure.EF.Contexts
             ModelBuilder.HasDefaultSchema("matches");
             var configuration = new WriteConfiguration();
             ModelBuilder.ApplyConfiguration(configuration);
-
+            ModelBuilder.Entity<Domain.Entities.Match>().Ignore(x => x.Events);
             base.OnModelCreating(ModelBuilder);
         }
     }

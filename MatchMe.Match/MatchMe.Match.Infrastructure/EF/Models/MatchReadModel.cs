@@ -2,7 +2,7 @@
 
 namespace MatchMe.Match.Infrastructure.EF.Models
 {
-    internal class MatchReadModel
+    public class MatchReadModel
     {
         public long Id { get; set; }
         public long CandidateId { get; set; }

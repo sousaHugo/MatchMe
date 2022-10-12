@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MatchMe.Match.Infrastructure.EF.Contexts
 {
-    internal class ReadDbContext : DbContext
+    public class ReadDbContext : DbContext
     {
         public DbSet<MatchReadModel> Match { get; set; }
 
