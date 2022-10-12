@@ -10,5 +10,6 @@ namespace MatchMe.Match.Domain.Events
             _match = Match;
         }
         public Entities.Match Match => _match;
+
     }
 }

@@ -2,8 +2,9 @@
 using MatchMe.Common.Shared.Exceptions;
 using MatchMe.Opportunities.Application.Services;
 using MatchMe.Opportunities.Domain.Entities;
-using MatchMe.Opportunities.Domain.Factories;
+using MatchMe.Opportunities.Domain.Entities.Extensions;
 using MatchMe.Opportunities.Domain.Repositories;
+using MatchMe.Opportunities.Integration.Publishers;
 
 namespace MatchMe.Opportunities.Application.Commands.Handlers
 {
@@ -11,14 +12,15 @@ namespace MatchMe.Opportunities.Application.Commands.Handlers
     public class CreateOpportunityWithDetailsCommandHandler : ICommandHandler<CreateOpportunityWithDetailsCommand, long>
     {
         private readonly IOpportunityRepository _opportunityRepository;
-        private readonly IOpportunityFactory _opportunityFactory;
         private readonly IOpportunityReadService _opportunityReadService;
+        private readonly IOpportunityCreatedPublisher _publisher;
 
-        public CreateOpportunityWithDetailsCommandHandler(IOpportunityFactory opportunityFactory, IOpportunityReadService OpportunityReadService, IOpportunityRepository OpportunityRepository)
+        public CreateOpportunityWithDetailsCommandHandler(IOpportunityReadService OpportunityReadService, 
+            IOpportunityRepository OpportunityRepository, IOpportunityCreatedPublisher Publisher)
         {
-            _opportunityFactory = opportunityFactory;
             _opportunityReadService = OpportunityReadService;
             _opportunityRepository = OpportunityRepository;
+            _publisher = Publisher;
         }
 
         public async Task<long> Handle(CreateOpportunityWithDetailsCommand Request, CancellationToken CancellationToken)
@@ -31,13 +33,14 @@ namespace MatchMe.Opportunities.Application.Commands.Handlers
 
             var opportunityDto = Request.OpportunityCreateDto;
 
-            var opportunity = _opportunityFactory
-                .Create(opportunityDto.Title, opportunityDto.Description, opportunityDto.ClientId, opportunityDto.Responsible, opportunityDto.Location,
-                opportunityDto.BeginDate, opportunityDto.EndDate, opportunityDto.MinSalaryYear, opportunityDto.MaxSalaryYear, opportunityDto.MinExperienceMonth,
-                opportunityDto.MaxExperienceMonth, opportunityDto.Skills
+            var opportunity = Opportunity.Create(opportunityDto.Title, opportunityDto.Description, opportunityDto.ClientId, opportunityDto.Responsible,
+                opportunityDto.Location, opportunityDto.BeginDate, opportunityDto.EndDate, opportunityDto.MinSalaryYear, opportunityDto.MaxSalaryYear, 
+                opportunityDto.MinExperienceMonth, opportunityDto.MaxExperienceMonth, opportunityDto.Skills
                 .Select(s => new OpportunitySkill(s.Name, s.MinExperience, s.MaxExperience, s.Level, s.Mandatory)));
 
             await _opportunityRepository.AddAsync(opportunity, CancellationToken);
+
+            _ = _publisher.SendAsync(opportunity.AsOpportunityCreatedDto(), CancellationToken);
 
             return opportunity.Id;
         }

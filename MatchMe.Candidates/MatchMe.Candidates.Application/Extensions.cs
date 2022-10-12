@@ -1,8 +1,10 @@
 ﻿using Mapster;
+using MatchMe.Candidates.Domain.Events;
+using MatchMe.Candidates.Domain.Events.Handlers;
 using MatchMe.Candidates.Domain.Factories;
 using MatchMe.Common.Shared.Extensions;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace MatchMe.Candidates.Application
 {
@@ -12,6 +14,8 @@ namespace MatchMe.Candidates.Application
         {
             ServiceCollection.AddCommands();
             ServiceCollection.AddSingleton<ICandidateFactory, CandidateFactory>();
+
+            ServiceCollection.AddTransient<INotificationHandler<CandidateDomainEvent>, CandidateEventHandler>();
 
             return ServiceCollection;
         }

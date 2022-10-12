@@ -2,7 +2,6 @@
 using MatchMe.Common.Shared.Exceptions;
 using MatchMe.Opportunities.Application.Services;
 using MatchMe.Opportunities.Domain.Entities;
-using MatchMe.Opportunities.Domain.Factories;
 using MatchMe.Opportunities.Domain.Repositories;
 using MediatR;
 

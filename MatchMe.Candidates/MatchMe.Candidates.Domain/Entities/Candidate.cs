@@ -53,7 +53,7 @@ namespace MatchMe.Candidates.Domain.Entities
             _citizenCardNumber = CitizenCardNumber;
 
             this.Validate();
-            AddEvent(new CandidateCreatedEvent(this));
+            AddEvent(new CandidateDomainEvent(this, "CandidateCreatedDomainEvent"));
         }
   
         
@@ -75,7 +75,7 @@ namespace MatchMe.Candidates.Domain.Entities
 
             AddOrRemoveSkills(Skills);
             this.Validate();
-            AddEvent(new CandidateUpdatedEvent(this));
+            AddEvent(new CandidateDomainEvent(this, "CandidateUpdatedDomainEvent"));
         }
         
         
@@ -107,7 +107,7 @@ namespace MatchMe.Candidates.Domain.Entities
                 throw new DomainEntityValidationErrorException($"Skill {Skill.Name} already belongs to the Candidate.");
           
             _skills.AddLast(Skill);
-            AddEvent(new CandidateSkillAddedEvent(Skill));
+            AddEvent(new CandidateDomainEvent(this, "CandidateAddSkillDomainEvent"));
         }
         public void UpdateSkill(CandidateSkill Skill)
         {
@@ -117,7 +117,7 @@ namespace MatchMe.Candidates.Domain.Entities
                 throw new DomainEntityValidationErrorException($"Skill {Skill.Name} doesn't belong to the Candidate.");
 
             skill.Update(Skill.Name, Skill.Experience, Skill.Level);
-            AddEvent(new CandidateSkillUpdatedEvent(Skill));
+            AddEvent(new CandidateDomainEvent(this, "CandidateUpdateSkillDomainEvent"));
         }
         public void RemoveSkill(CandidateSkill Skill)
         {
@@ -126,7 +126,7 @@ namespace MatchMe.Candidates.Domain.Entities
                 throw new DomainEntityValidationErrorException($"Candidate: {_firstName} {_lastName} doesn't have {Skill.Name} skill defined.");
 
             _skills.Remove(Skill);
-            AddEvent(new CandidateSkillRemoveEvent(Skill));
+            AddEvent(new CandidateDomainEvent(this, "CandidateRemoveSkillDomainEvent"));
         }
         public void RemoveSkill(long Id)
         {
