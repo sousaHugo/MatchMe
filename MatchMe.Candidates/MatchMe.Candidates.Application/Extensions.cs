@@ -1,6 +1,7 @@
 ﻿using Mapster;
 using MatchMe.Candidates.Domain.Events;
 using MatchMe.Candidates.Domain.Events.Handlers;
+using MatchMe.Candidates.Integration.Publishers;
 using MatchMe.Common.Shared.Extensions;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ namespace MatchMe.Candidates.Application
         {
             ServiceCollection.AddCommands();
             ServiceCollection.AddTransient<INotificationHandler<CandidateDomainEvent>, CandidateEventHandler>();
+            ServiceCollection.AddTransient<ICandidateCreatedPublisher, CandidateCreatedPublisher>();
 
             return ServiceCollection;
         }

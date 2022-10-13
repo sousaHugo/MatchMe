@@ -1,4 +1,5 @@
 using MatchMe.Common.Shared.Extensions;
+using MatchMe.Common.Shared.Integration.Candidates;
 using MatchMe.Common.Shared.Integration.Opportunities;
 using MatchMe.Common.Shared.MongoDb;
 using MatchMe.Match.Infrastructure;
@@ -12,7 +13,9 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddMongo()
-    .AddMongoRepository<OpportunityCreatedDto>("Opportunities");
+    .AddMongoRepository<OpportunityCreatedDto>("Opportunities")
+    .AddMongoRepository<CandidateCreatedDto>("Candidates"); ;
+
 builder.Services.AddShared();
 builder.Services.AddIntegration();
 builder.Services.AddInfrastructure(builder.Configuration);

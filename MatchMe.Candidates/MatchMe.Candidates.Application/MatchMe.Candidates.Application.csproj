@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\MatchMe.Candidates.Integration\MatchMe.Candidates.Integration.csproj" />
     <ProjectReference Include="..\MatchMe.Candidates.Domain\MatchMe.Candidates.Domain.csproj" />
   </ItemGroup>
 

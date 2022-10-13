@@ -6,6 +6,7 @@ using MatchMe.Candidates.Infrastructure;
 using MatchMe.Common.Shared.Domain;
 using MatchMe.Common.Shared.Extensions;
 using MatchMe.Common.Shared.Integration.Opportunities;
+using MatchMe.Common.Shared.MassTransitRabbitMq;
 using MatchMe.Common.Shared.MongoDb;
 using MediatR;
 using System.Reflection;
@@ -25,6 +26,7 @@ builder.Services.AddMongo()
     .AddMongoRepository<DomainEvent>("Events");
 
 builder.Services.AddMediatR(typeof(Program));
+builder.Services.AddMassTransitWithRabbitMq();
 builder.Services.AddShared();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);

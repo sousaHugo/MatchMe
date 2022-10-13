@@ -35,19 +35,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchMe.Common.Shared", "..
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9960B038-6EA7-4910-9621-C2DB5A6E1D44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchMe.Opportunities.Integration", "..\MatchMe.Opportunities\MatchMe.Opportunities.Integration\MatchMe.Opportunities.Integration.csproj", "{A99B6B17-C04C-4170-A0E0-EA3CDE2A75F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchMe.Opportunities.Integration", "..\MatchMe.Opportunities\MatchMe.Opportunities.Integration\MatchMe.Opportunities.Integration.csproj", "{A99B6B17-C04C-4170-A0E0-EA3CDE2A75F9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MatchMe.Match", "MatchMe.Match", "{388DC555-E602-4069-9A52-59F581D74247}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchMe.Match.Api", "..\MatchMe.Match\MatchMe.Match.Api\MatchMe.Match.Api.csproj", "{2FF2223D-9058-420B-8569-9B614A496B10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchMe.Match.Application", "..\MatchMe.Match\MatchMe.Match.Application\MatchMe.Match.Application.csproj", "{0746356B-EF3C-4C21-8CBB-EF16C3CFBCAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchMe.Match.Application", "..\MatchMe.Match\MatchMe.Match.Application\MatchMe.Match.Application.csproj", "{0746356B-EF3C-4C21-8CBB-EF16C3CFBCAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchMe.Match.Domain", "..\MatchMe.Match\MatchMe.Match.Domain\MatchMe.Match.Domain.csproj", "{D2BEB131-5A69-4E6F-8194-A41088F3DF95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchMe.Match.Domain", "..\MatchMe.Match\MatchMe.Match.Domain\MatchMe.Match.Domain.csproj", "{D2BEB131-5A69-4E6F-8194-A41088F3DF95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchMe.Match.Infrastructure", "..\MatchMe.Match\MatchMe.Match.Infrastructure\MatchMe.Match.Infrastructure.csproj", "{2C30FC1E-8CC5-48D7-A196-929D444A1DBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchMe.Match.Infrastructure", "..\MatchMe.Match\MatchMe.Match.Infrastructure\MatchMe.Match.Infrastructure.csproj", "{2C30FC1E-8CC5-48D7-A196-929D444A1DBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchMe.Match.Integration", "..\MatchMe.Match\MatchMe.Match.Integration\MatchMe.Match.Integration.csproj", "{F74E7467-C6C9-499A-8A7B-1F82B34CB4A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchMe.Match.Integration", "..\MatchMe.Match\MatchMe.Match.Integration\MatchMe.Match.Integration.csproj", "{F74E7467-C6C9-499A-8A7B-1F82B34CB4A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchMe.Candidates.Integration", "..\MatchMe.Candidates.Integration\MatchMe.Candidates.Integration.csproj", "{6329B34D-AF35-4639-B21D-42DA2CB4E7A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,6 +125,10 @@ Global
 		{F74E7467-C6C9-499A-8A7B-1F82B34CB4A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F74E7467-C6C9-499A-8A7B-1F82B34CB4A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F74E7467-C6C9-499A-8A7B-1F82B34CB4A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6329B34D-AF35-4639-B21D-42DA2CB4E7A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6329B34D-AF35-4639-B21D-42DA2CB4E7A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6329B34D-AF35-4639-B21D-42DA2CB4E7A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6329B34D-AF35-4639-B21D-42DA2CB4E7A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,6 +150,7 @@ Global
 		{D2BEB131-5A69-4E6F-8194-A41088F3DF95} = {388DC555-E602-4069-9A52-59F581D74247}
 		{2C30FC1E-8CC5-48D7-A196-929D444A1DBB} = {388DC555-E602-4069-9A52-59F581D74247}
 		{F74E7467-C6C9-499A-8A7B-1F82B34CB4A2} = {388DC555-E602-4069-9A52-59F581D74247}
+		{6329B34D-AF35-4639-B21D-42DA2CB4E7A6} = {506F8087-5E73-4F9F-AA23-F430CC49B1B8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E0F023C-FAEA-4ED6-92DA-76EAF972BAED}

@@ -1,7 +1,9 @@
 ﻿using MatchMe.Candidates.Application.Commands.Candidates;
 using MatchMe.Candidates.Application.Services;
 using MatchMe.Candidates.Domain.Entities;
+using MatchMe.Candidates.Domain.Entities.Extensions;
 using MatchMe.Candidates.Domain.Repositories;
+using MatchMe.Candidates.Integration.Publishers;
 using MatchMe.Common.Shared.Commands;
 using MatchMe.Common.Shared.Domain.ValueObjects;
 using MatchMe.Common.Shared.Exceptions;
@@ -12,11 +14,13 @@ namespace MatchMe.Candidates.Application.Commands.Handlers
     {
         private readonly ICandidateRepository _candidateRepository;
         private readonly ICandidateReadService _candidateReadService;
-
-        public CreateCandidateBasicInformationCommandHandler(ICandidateRepository CandidateRepository,  ICandidateReadService CandidateReadService)
+        private readonly ICandidateCreatedPublisher _publisher;
+        public CreateCandidateBasicInformationCommandHandler(ICandidateRepository CandidateRepository,  ICandidateReadService CandidateReadService,
+            ICandidateCreatedPublisher Publisher)
         {
             _candidateRepository = CandidateRepository;
             _candidateReadService = CandidateReadService;
+            _publisher = Publisher;
         }
 
         public async Task<long> Handle(CreateCandidateBasicInformationCommand Request, CancellationToken CancellationToken)
@@ -35,6 +39,8 @@ namespace MatchMe.Candidates.Application.Commands.Handlers
                 candidateCreateDto.Email, candidateCreateDto.FiscalNumber, candidateCreateDto.CitizenCardNumber);
 
             await _candidateRepository.AddAsync(candidate, CancellationToken);
+
+            _ = _publisher.SendAsync(candidate.AsCandidateCreatedDto(), CancellationToken);
 
             return candidate.Id;
         }
