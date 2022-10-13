@@ -1,7 +1,4 @@
 ﻿using MatchMe.Candidates.Application.Commands.Candidates;
-using MatchMe.Candidates.Application.Dto.CandidatesExperience.Extensions;
-using MatchMe.Candidates.Application.Dto.CandidatesEducation.Extensions;
-using MatchMe.Candidates.Application.Dto.CandidatesSkill.Extensions;
 using MatchMe.Candidates.Application.Services;
 using MatchMe.Candidates.Domain.Entities;
 using MatchMe.Candidates.Domain.Entities.Extensions;
@@ -10,6 +7,7 @@ using MatchMe.Candidates.Integration.Publishers;
 using MatchMe.Common.Shared.Commands;
 using MatchMe.Common.Shared.Domain.ValueObjects;
 using MatchMe.Common.Shared.Exceptions;
+using MatchMe.Candidates.Application.Mapping;
 
 namespace MatchMe.Candidates.Application.Commands.Handlers
 {
@@ -28,22 +26,18 @@ namespace MatchMe.Candidates.Application.Commands.Handlers
 
         public async Task<long> Handle(CreateCandidateCommand Request, CancellationToken CancellationToken)
         {
-            if (Request.CandidateCreateDto is null)
-                throw new ApplicationEntityInvalidException(nameof(Candidate));
+            if (await _candidateReadService.ExistsByFiscalNumberAsync(Request.FiscalNumber))
+                throw new ApplicationEntityAlreadyExistsException(nameof(Candidate),"Fiscal Number", Request.FiscalNumber);
 
-            if (await _candidateReadService.ExistsByFiscalNumberAsync(Request.CandidateCreateDto.FiscalNumber))
-                throw new ApplicationEntityAlreadyExistsException(nameof(Candidate),"Fiscal Number", Request.CandidateCreateDto.FiscalNumber);
 
-            var candidateCreateDto = Request.CandidateCreateDto;
+            var candidate = Candidate.Create(Request.FirstName, Request.LastName, Request.DateOfBirth, 
+                new AddressObject(Request.Address.Street, Request.Address.City, Request.Address.State, Request.Address.PostCode, Request.Address.Country),
+                Request.Gender, Request.MaritalStatus, Request.Nationality, Request.MobilePhone,
+                Request.Email, Request.FiscalNumber, Request.CitizenCardNumber);
 
-            var candidate = Candidate.Create(candidateCreateDto.FirstName, candidateCreateDto.LastName, candidateCreateDto.DateOfBirth, 
-                new AddressObject(candidateCreateDto.Address.Street, candidateCreateDto.Address.City, candidateCreateDto.Address.State, candidateCreateDto.Address.PostCode, candidateCreateDto.Address.Country),
-                candidateCreateDto.Gender, candidateCreateDto.MaritalStatus, candidateCreateDto.Nationality, candidateCreateDto.MobilePhone,
-                candidateCreateDto.Email, candidateCreateDto.FiscalNumber, candidateCreateDto.CitizenCardNumber);
-
-            candidate.AddSkills(candidateCreateDto.Skills.AsCandidateSkill());
-            candidate.AddExperiences(candidateCreateDto.Experiences.AsCandidateExperience());
-            candidate.AddEducations(candidateCreateDto.Educations.AsCandidateEducation());
+            candidate.AddSkills(Request.Skills.AsCandidateSkill());
+            candidate.AddExperiences(Request.Experiences.AsCandidateExperience());
+            candidate.AddEducations(Request.Educations.AsCandidateEducation());
 
             await _candidateRepository.AddAsync(candidate, CancellationToken);
 

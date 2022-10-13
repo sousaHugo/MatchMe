@@ -1,7 +1,7 @@
-using Mapster;
 using MatchMe.Candidates.Application.Commands.Candidates;
 using MatchMe.Candidates.Application.Dto.Candidates;
 using MatchMe.Candidates.Application.Dto.Candidates.Extensions;
+using MatchMe.Candidates.Application.Mapping;
 using MatchMe.Candidates.Application.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -48,7 +48,7 @@ namespace MatchMe.Candidates.Api.Controllers
             if (!requestValidation.IsValid)
                 return BadRequest(requestValidation.Response);
 
-            var createdCandidate = await _mediator.Send(new CreateCandidateBasicInformationCommand(RequestDto));
+            var createdCandidate = await _mediator.Send(RequestDto.AsCreateCandidateCommand());
 
             return CreatedAtAction(nameof(GetByIdAsync), new { id = createdCandidate }, RequestDto);
         }
@@ -60,7 +60,7 @@ namespace MatchMe.Candidates.Api.Controllers
             if (!requestValidation.IsValid)
                 return BadRequest(requestValidation.Response);
 
-            var createdCandidate = await _mediator.Send(new CreateCandidateCommand(RequestDto));
+            var createdCandidate = await _mediator.Send(RequestDto.AsCreateCandidateCommand());
 
             return CreatedAtAction(nameof(GetByIdAsync), new { id = createdCandidate }, RequestDto);
         }
@@ -75,7 +75,7 @@ namespace MatchMe.Candidates.Api.Controllers
                 return BadRequest(requestValidation.Response);
 
 
-            await _mediator.Send(new UpdateCandidateCommand(RequestDto));
+            await _mediator.Send(RequestDto.AsUpdateCandidateCommand());
 
             return NoContent();
         }

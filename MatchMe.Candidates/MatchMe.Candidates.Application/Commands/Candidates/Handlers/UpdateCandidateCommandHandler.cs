@@ -1,7 +1,5 @@
 ﻿using MatchMe.Candidates.Application.Commands.Candidates;
-using MatchMe.Candidates.Application.Dto.CandidatesEducation.Extensions;
-using MatchMe.Candidates.Application.Dto.CandidatesExperience.Extensions;
-using MatchMe.Candidates.Application.Dto.CandidatesSkill.Extensions;
+using MatchMe.Candidates.Application.Mapping;
 using MatchMe.Candidates.Application.Services;
 using MatchMe.Candidates.Domain.Entities;
 using MatchMe.Candidates.Domain.Repositories;
@@ -23,22 +21,17 @@ namespace MatchMe.Candidates.Application.Commands.Handlers
         }
         public async Task<bool> Handle(UpdateCandidateCommand Request, CancellationToken CancellationToken)
         {
-            if (Request.CandidateUpdateDto is null)
-                throw new ApplicationEntityInvalidException(nameof(Candidate));
-
-            var candidateEf = await _candidateRepository.GetAsync(Request.CandidateUpdateDto.Id, CancellationToken);
+            var candidateEf = await _candidateRepository.GetAsync(Request.Id, CancellationToken);
 
             if (candidateEf == null)
-                throw new ApplicationEntityNotFoundException(nameof(Candidate), Request.CandidateUpdateDto.Id.ToString());
+                throw new ApplicationEntityNotFoundException(nameof(Candidate), Request.Id.ToString());
 
-            var candidateUpdateDto = Request.CandidateUpdateDto;
-
-            candidateEf.Update(candidateUpdateDto.FirstName, candidateUpdateDto.LastName, candidateUpdateDto.DateOfBirth,new AddressObject(candidateUpdateDto.Address.Street, candidateUpdateDto.Address.City, candidateUpdateDto.Address.State, 
-                candidateUpdateDto.Address.PostCode, candidateUpdateDto.Address.Country), candidateUpdateDto.Gender, candidateUpdateDto.MaritalStatus, candidateUpdateDto.Nationality, candidateUpdateDto.MobilePhone, candidateUpdateDto.Email,
-                candidateUpdateDto.FiscalNumber, candidateUpdateDto.CitizenCardNumber, 
-                candidateUpdateDto.Skills.AsCandidateSkill(),
-                candidateUpdateDto.Experiences.AsCandidateExperience(),
-                candidateUpdateDto.Educations.AsCandidateEducation());
+            candidateEf.Update(Request.FirstName, Request.LastName, Request.DateOfBirth,new AddressObject(Request.Address.Street, Request.Address.City, Request.Address.State,
+                Request.Address.PostCode, Request.Address.Country), Request.Gender, Request.MaritalStatus, Request.Nationality, Request.MobilePhone, Request.Email,
+                Request.FiscalNumber, Request.CitizenCardNumber,
+                Request.Skills.AsCandidateSkill(),
+                Request.Experiences.AsCandidateExperience(),
+                Request.Educations.AsCandidateEducation());
 
             await _candidateRepository.UpdateAsync(candidateEf, CancellationToken);
 
