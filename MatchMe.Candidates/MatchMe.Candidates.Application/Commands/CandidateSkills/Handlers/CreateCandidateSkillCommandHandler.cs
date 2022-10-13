@@ -19,7 +19,7 @@ namespace MatchMe.Candidates.Application.Commands.CandidateSkills.Handlers
 
             var candidateEf = await _candidateRepository.GetAsync(Request.CandidateSkillCreateDto.CandidateId, CancellationToken);
 
-            var newCandidateSkill = new CandidateSkill(Request.CandidateSkillCreateDto.Name, Request.CandidateSkillCreateDto.Experience, Request.CandidateSkillCreateDto.Level);
+            var newCandidateSkill = CandidateSkill.Create(Request.CandidateSkillCreateDto.Name, Request.CandidateSkillCreateDto.Experience, Request.CandidateSkillCreateDto.Level);
 
             candidateEf.AddSkill(newCandidateSkill);
 

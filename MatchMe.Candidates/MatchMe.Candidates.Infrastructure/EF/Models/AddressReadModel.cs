@@ -2,10 +2,10 @@
 {
     public class AddressReadModel
     {
-        public string Street { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string PostCode { get; set; }
-        public string Country { get; set; }
+        public string Street { get; }
+        public string City { get;}
+        public string State { get; }
+        public string PostCode { get; }
+        public string Country { get; }
     }
 }

@@ -15,7 +15,8 @@ namespace MatchMe.Candidates.Infrastructure.EF.Contexts
             var configuration = new ReadConfiguration();
             ModelBuilder.ApplyConfiguration<CandidateReadModel>(configuration);
             ModelBuilder.ApplyConfiguration<CandidateSkillReadModel>(configuration);
-
+            ModelBuilder.ApplyConfiguration<CandidateExperienceReadModel>(configuration);
+            ModelBuilder.ApplyConfiguration<CandidateEducationReadModel>(configuration);
 
             base.OnModelCreating(ModelBuilder);
         }

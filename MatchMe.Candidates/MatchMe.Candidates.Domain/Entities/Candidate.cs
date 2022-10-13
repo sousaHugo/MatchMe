@@ -1,7 +1,4 @@
-﻿using IdGen;
-using MatchMe.Candidates.Domain.Entities.Extensions;
-using MatchMe.Candidates.Domain.Events;
-using MatchMe.Common.Shared.Domain;
+﻿using MatchMe.Common.Shared.Domain;
 using MatchMe.Common.Shared.Domain.ValueObjects;
 
 namespace MatchMe.Candidates.Domain.Entities
@@ -19,8 +16,10 @@ namespace MatchMe.Candidates.Domain.Entities
         private MaritalStatusObject _maritalStatus;
         private FiscalNumberObject _fiscalNumber;
         private CitizenCardNumberObject _citizenCardNumber;
-        private LinkedList<CandidateSkill> _skills = new();
-
+        private readonly LinkedList<CandidateSkill> _skills = new();
+        private readonly LinkedList<CandidateExperience> _experiences = new();
+        private readonly LinkedList<CandidateEducation> _educations = new();
+        
         public string FirstName => _firstName;
         public string LastName => _lastName;
         public DateOfBirthObject DateOfBirth => _dateOfBirth;
@@ -33,12 +32,14 @@ namespace MatchMe.Candidates.Domain.Entities
         public FiscalNumberObject FiscalNumber => _fiscalNumber;
         public CitizenCardNumberObject CitizenCardNumber => _citizenCardNumber;
         public LinkedList<CandidateSkill> Skills => _skills;
-        
+        public LinkedList<CandidateExperience> Experiences => _experiences;
+        public LinkedList<CandidateEducation> Educations => _educations;
+
         private Candidate() { }
-        public Candidate(string FirstName, string LastName, DateOfBirthObject DateOfBirth, AddressObject Address, GenderObject Gender, MaritalStatusObject MaritalStatus, string Nationality,
+        public Candidate(long Id,string FirstName, string LastName, DateOfBirthObject DateOfBirth, AddressObject Address, GenderObject Gender, MaritalStatusObject MaritalStatus, string Nationality,
             string MobilePhone, EmailObject Email, FiscalNumberObject FiscalNumber, CitizenCardNumberObject CitizenCardNumber)
         {
-            Id = new IdGenerator(0).CreateId();
+            this.Id = Id;
             _firstName = FirstName;
             _lastName = LastName;
             _dateOfBirth = DateOfBirth;
@@ -50,9 +51,6 @@ namespace MatchMe.Candidates.Domain.Entities
             _mobilePhone = MobilePhone;
             _fiscalNumber = FiscalNumber;
             _citizenCardNumber = CitizenCardNumber;
-
-            this.Validate();
-            AddEvent(new CandidateDomainEvent(this, CandidateDomainEventTypes.CandidateCreatedDomainEvent));
         }
     }
 }

@@ -1,4 +1,7 @@
 ﻿using MatchMe.Candidates.Application.Commands.Candidates;
+using MatchMe.Candidates.Application.Dto.CandidatesExperience.Extensions;
+using MatchMe.Candidates.Application.Dto.CandidatesEducation.Extensions;
+using MatchMe.Candidates.Application.Dto.CandidatesSkill.Extensions;
 using MatchMe.Candidates.Application.Services;
 using MatchMe.Candidates.Domain.Entities;
 using MatchMe.Candidates.Domain.Entities.Extensions;
@@ -36,7 +39,11 @@ namespace MatchMe.Candidates.Application.Commands.Handlers
             var candidate = Candidate.Create(candidateCreateDto.FirstName, candidateCreateDto.LastName, candidateCreateDto.DateOfBirth, 
                 new AddressObject(candidateCreateDto.Address.Street, candidateCreateDto.Address.City, candidateCreateDto.Address.State, candidateCreateDto.Address.PostCode, candidateCreateDto.Address.Country),
                 candidateCreateDto.Gender, candidateCreateDto.MaritalStatus, candidateCreateDto.Nationality, candidateCreateDto.MobilePhone,
-                candidateCreateDto.Email, candidateCreateDto.FiscalNumber, candidateCreateDto.CitizenCardNumber, candidateCreateDto.Skills.Select(a => new CandidateSkill(a.Name, a.Experience, a.Level)));
+                candidateCreateDto.Email, candidateCreateDto.FiscalNumber, candidateCreateDto.CitizenCardNumber);
+
+            candidate.AddSkills(candidateCreateDto.Skills.AsCandidateSkill());
+            candidate.AddExperiences(candidateCreateDto.Experiences.AsCandidateExperience());
+            candidate.AddEducations(candidateCreateDto.Educations.AsCandidateEducation());
 
             await _candidateRepository.AddAsync(candidate, CancellationToken);
 

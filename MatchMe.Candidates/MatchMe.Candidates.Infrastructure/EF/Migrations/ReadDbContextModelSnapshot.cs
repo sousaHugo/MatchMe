@@ -23,6 +23,83 @@ namespace MatchMe.Candidates.Infrastructure.EF.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("MatchMe.Candidates.Infrastructure.EF.Models.CandidateEducationReadModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("BeginDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("CandidateId1")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Organization")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CandidateId1");
+
+                    b.ToTable("CandidateEducation", "candidates");
+                });
+
+            modelBuilder.Entity("MatchMe.Candidates.Infrastructure.EF.Models.CandidateExperienceReadModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("BeginDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("CandidateId1")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Company")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Responsibilities")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CandidateId1");
+
+                    b.ToTable("CandidateExperience", "candidates");
+                });
+
             modelBuilder.Entity("MatchMe.Candidates.Infrastructure.EF.Models.CandidateReadModel", b =>
                 {
                     b.Property<long>("Id")
@@ -63,9 +140,6 @@ namespace MatchMe.Candidates.Infrastructure.EF.Migrations
                     b.Property<string>("Nationality")
                         .HasColumnType("text");
 
-                    b.Property<int>("Version")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.ToTable("Candidate", "candidates");
@@ -79,7 +153,7 @@ namespace MatchMe.Candidates.Infrastructure.EF.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("CandidateId")
+                    b.Property<long?>("CandidateId1")
                         .HasColumnType("bigint");
 
                     b.Property<int>("Experience")
@@ -94,9 +168,67 @@ namespace MatchMe.Candidates.Infrastructure.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CandidateId");
+                    b.HasIndex("CandidateId1");
 
                     b.ToTable("CandidateSkill", "candidates");
+                });
+
+            modelBuilder.Entity("MatchMe.Candidates.Infrastructure.EF.Models.CandidateEducationReadModel", b =>
+                {
+                    b.HasOne("MatchMe.Candidates.Infrastructure.EF.Models.CandidateReadModel", "Candidate")
+                        .WithMany("Educations")
+                        .HasForeignKey("CandidateId1");
+
+                    b.OwnsOne("MatchMe.Candidates.Infrastructure.EF.Models.AddressReadModel", "Address", b1 =>
+                        {
+                            b1.Property<long>("CandidateEducationReadModelId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("City");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("Country");
+
+                            b1.Property<string>("PostCode")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("PostCode");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("State");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("Street");
+
+                            b1.HasKey("CandidateEducationReadModelId");
+
+                            b1.ToTable("CandidateEducation", "candidates");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CandidateEducationReadModelId");
+                        });
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Candidate");
+                });
+
+            modelBuilder.Entity("MatchMe.Candidates.Infrastructure.EF.Models.CandidateExperienceReadModel", b =>
+                {
+                    b.HasOne("MatchMe.Candidates.Infrastructure.EF.Models.CandidateReadModel", "Candidate")
+                        .WithMany("Experiencies")
+                        .HasForeignKey("CandidateId1");
+
+                    b.Navigation("Candidate");
                 });
 
             modelBuilder.Entity("MatchMe.Candidates.Infrastructure.EF.Models.CandidateReadModel", b =>
@@ -146,15 +278,17 @@ namespace MatchMe.Candidates.Infrastructure.EF.Migrations
                 {
                     b.HasOne("MatchMe.Candidates.Infrastructure.EF.Models.CandidateReadModel", "Candidate")
                         .WithMany("Skills")
-                        .HasForeignKey("CandidateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CandidateId1");
 
                     b.Navigation("Candidate");
                 });
 
             modelBuilder.Entity("MatchMe.Candidates.Infrastructure.EF.Models.CandidateReadModel", b =>
                 {
+                    b.Navigation("Educations");
+
+                    b.Navigation("Experiencies");
+
                     b.Navigation("Skills");
                 });
 #pragma warning restore 612, 618

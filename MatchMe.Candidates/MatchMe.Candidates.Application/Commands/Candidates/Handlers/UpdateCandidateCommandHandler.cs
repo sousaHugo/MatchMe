@@ -1,4 +1,7 @@
 ﻿using MatchMe.Candidates.Application.Commands.Candidates;
+using MatchMe.Candidates.Application.Dto.CandidatesEducation.Extensions;
+using MatchMe.Candidates.Application.Dto.CandidatesExperience.Extensions;
+using MatchMe.Candidates.Application.Dto.CandidatesSkill.Extensions;
 using MatchMe.Candidates.Application.Services;
 using MatchMe.Candidates.Domain.Entities;
 using MatchMe.Candidates.Domain.Repositories;
@@ -32,7 +35,10 @@ namespace MatchMe.Candidates.Application.Commands.Handlers
 
             candidateEf.Update(candidateUpdateDto.FirstName, candidateUpdateDto.LastName, candidateUpdateDto.DateOfBirth,new AddressObject(candidateUpdateDto.Address.Street, candidateUpdateDto.Address.City, candidateUpdateDto.Address.State, 
                 candidateUpdateDto.Address.PostCode, candidateUpdateDto.Address.Country), candidateUpdateDto.Gender, candidateUpdateDto.MaritalStatus, candidateUpdateDto.Nationality, candidateUpdateDto.MobilePhone, candidateUpdateDto.Email,
-                candidateUpdateDto.FiscalNumber, candidateUpdateDto.CitizenCardNumber, candidateUpdateDto.Skills.Select(a => new CandidateSkill(a.Id, a.Name, a.Experience, a.Level)));
+                candidateUpdateDto.FiscalNumber, candidateUpdateDto.CitizenCardNumber, 
+                candidateUpdateDto.Skills.AsCandidateSkill(),
+                candidateUpdateDto.Experiences.AsCandidateExperience(),
+                candidateUpdateDto.Educations.AsCandidateEducation());
 
             await _candidateRepository.UpdateAsync(candidateEf, CancellationToken);
 

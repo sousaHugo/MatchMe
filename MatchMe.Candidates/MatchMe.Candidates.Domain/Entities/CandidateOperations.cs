@@ -1,4 +1,5 @@
-﻿using MatchMe.Candidates.Domain.Entities.Extensions;
+﻿using IdGen;
+using MatchMe.Candidates.Domain.Entities.Extensions;
 using MatchMe.Candidates.Domain.Events;
 using MatchMe.Common.Shared.Domain.ValueObjects;
 using MatchMe.Common.Shared.Exceptions;
@@ -9,18 +10,33 @@ namespace MatchMe.Candidates.Domain.Entities
     {       
         public static Candidate Create(string FirstName, string LastName, DateOfBirthObject DateOfBirth, AddressObject Address, GenderObject Gender, MaritalStatusObject MaritalStatus, string Nationality,
           string MobilePhone, EmailObject Email, FiscalNumberObject FiscalNumber, CitizenCardNumberObject CitizenCardNumber)
-         => new(FirstName, LastName, DateOfBirth, Address, Gender, MaritalStatus, Nationality, MobilePhone, Email, FiscalNumber, CitizenCardNumber);
+        {
+            Candidate candidate = new(new IdGenerator(0).CreateId(), FirstName, LastName, DateOfBirth, Address, Gender, MaritalStatus, Nationality, MobilePhone, Email, FiscalNumber, CitizenCardNumber);
+            
+            candidate.Validate();
+            candidate.AddEvent(new CandidateDomainEvent(candidate, CandidateDomainEventTypes.CandidateCreatedDomainEvent));
+            
+            return candidate;
+        }
 
         public static Candidate Create(string FirstName, string LastName, DateOfBirthObject DateOfBirth, AddressObject Address, GenderObject Gender, MaritalStatusObject MaritalStatus, string Nationality,
-           string MobilePhone, EmailObject Email, FiscalNumberObject FiscalNumber, CitizenCardNumberObject CitizenCardNumber, IEnumerable<CandidateSkill> Skills)
+           string MobilePhone, EmailObject Email, FiscalNumberObject FiscalNumber, CitizenCardNumberObject CitizenCardNumber, IEnumerable<CandidateSkill> Skills,
+            IEnumerable<CandidateExperience> Experiences, IEnumerable<CandidateEducation> Educations)
         {
-            Candidate candidate = new(FirstName, LastName, DateOfBirth, Address, Gender, MaritalStatus, Nationality, MobilePhone, Email, FiscalNumber, CitizenCardNumber);
+            Candidate candidate = new(new IdGenerator(0).CreateId(),FirstName, LastName, DateOfBirth, Address, Gender, MaritalStatus, Nationality, MobilePhone, Email, FiscalNumber, CitizenCardNumber);
             candidate.AddSkills(Skills ?? new List<CandidateSkill>());
+            candidate.AddExperiences(Experiences ?? new List<CandidateExperience>());
+            candidate.AddEducations(Educations ?? new List<CandidateEducation>());
+
+            candidate.Validate();
+            candidate.AddEvent(new CandidateDomainEvent(candidate, CandidateDomainEventTypes.CandidateCreatedDomainEvent));
+
             return candidate;
         }
 
         public void Update(string FirstName, string LastName, DateOfBirthObject DateOfBirth, AddressObject Address, GenderObject Gender, MaritalStatusObject MaritalStatus, string Nationality,
-            string MobilePhone, EmailObject Email, FiscalNumberObject FiscalNumber, CitizenCardNumberObject CitizenCardNumber, IEnumerable<CandidateSkill> Skills)
+            string MobilePhone, EmailObject Email, FiscalNumberObject FiscalNumber, CitizenCardNumberObject CitizenCardNumber, IEnumerable<CandidateSkill> Skills,
+            IEnumerable<CandidateExperience> Experiences, IEnumerable<CandidateEducation> Educations)
         {
             _firstName = FirstName;
             _lastName = LastName;
@@ -34,13 +50,18 @@ namespace MatchMe.Candidates.Domain.Entities
             _fiscalNumber = FiscalNumber;
             _citizenCardNumber = CitizenCardNumber;
 
-
             AddOrRemoveSkills(Skills);
+            AddOrRemoveExperiences(Experiences);
+            AddOrRemoveEducations(Educations);
+
             this.Validate();
+            
             AddEvent(new CandidateDomainEvent(this, CandidateDomainEventTypes.CandidateUpdatedDomainEvent));
         }
-        
-        
+
+
+        #region Candidate_Skills
+
         private void AddOrRemoveSkills(IEnumerable<CandidateSkill> Skills)
         {
             this.Skills.ToList().ForEach(skill =>
@@ -62,12 +83,19 @@ namespace MatchMe.Candidates.Domain.Entities
 
             });
         }
+        public void AddSkills(IEnumerable<CandidateSkill> Skills)
+        {
+            foreach (var item in Skills)
+            {
+                AddSkill(item);
+            }
+        }
         public void AddSkill(CandidateSkill Skill)
         {
             var alreadyExists = _skills.FirstOrDefault(a => a.Id == Skill.Id || a.Name == Skill.Name);
             if (alreadyExists != null)
                 throw new DomainEntityValidationErrorException($"Skill {Skill.Name} already belongs to the Candidate.");
-          
+
             _skills.AddLast(Skill);
             AddEvent(new CandidateDomainEvent(this, CandidateDomainEventTypes.CandidateAddSkillDomainEvent));
         }
@@ -79,7 +107,15 @@ namespace MatchMe.Candidates.Domain.Entities
                 throw new DomainEntityValidationErrorException($"Skill {Skill.Name} doesn't belong to the Candidate.");
 
             skill.Update(Skill.Name, Skill.Experience, Skill.Level);
+            
             AddEvent(new CandidateDomainEvent(this, CandidateDomainEventTypes.CandidateUpdatedDomainEvent));
+        }
+        public void RemoveSkills(IEnumerable<CandidateSkill> Skills)
+        {
+            foreach (var item in Skills)
+            {
+                RemoveSkill(item);
+            }
         }
         public void RemoveSkill(CandidateSkill Skill)
         {
@@ -98,19 +134,174 @@ namespace MatchMe.Candidates.Domain.Entities
 
             RemoveSkill(skill);
         }
-        public void AddSkills(IEnumerable<CandidateSkill> Skills)
+        public void CleanSkills()
+            => _skills.Clear();
+
+        #endregion
+
+        #region Candidate_Experience
+
+        private void AddOrRemoveExperiences(IEnumerable<CandidateExperience> Experiences)
         {
-            foreach (var item in Skills)
+            this.Experiences.ToList().ForEach(exp =>
             {
-                AddSkill(item);
+                if (!Skills.Any(a => a.Id == exp.Id))
+                    RemoveExperience(exp);
+            });
+            AddOrUpdateExperiences(Experiences);
+        }
+        private void AddOrUpdateExperiences(IEnumerable<CandidateExperience> Experiences)
+        {
+            Experiences.ToList().ForEach(exp =>
+            {
+                var existingExp = _skills.FirstOrDefault(a => a.Id == exp.Id || a.Name == exp.Role);
+                if (existingExp != null)
+                    UpdateExperience(exp);
+                else
+                    AddExperience(exp);
+
+            });
+        }
+        public void AddExperiences(IEnumerable<CandidateExperience> Experiences)
+        {
+            foreach (var item in Experiences)
+            {
+                AddExperience(item);
             }
         }
-        public void RemoveSkills(IEnumerable<CandidateSkill> Skills)
+        public void AddExperience(CandidateExperience Experience)
         {
-            foreach (var item in Skills)
+            var alreadyExists = _experiences.FirstOrDefault(a => a.Id == Experience.Id || a.Role == Experience.Role);
+            if (alreadyExists != null)
+                throw new DomainEntityValidationErrorException($"Experience {Experience.Role} already belongs to the Candidate.");
+
+            Experience.Validate();
+
+            _experiences.AddLast(Experience);
+            AddEvent(new CandidateDomainEvent(this, CandidateDomainEventTypes.CandidateAddExperienceDomainEvent));
+        }
+        public void UpdateExperience(CandidateExperience Experience)
+        {
+            var experience = _experiences.FirstOrDefault(a => a.Id == Experience.Id || a.Role == Experience.Role);
+
+            if (experience == null)
+                throw new DomainEntityValidationErrorException($"Experience {Experience.Role} doesn't belong to the Candidate.");
+
+            experience.Update(Experience.Role, Experience.Description, Experience.Responsibilities, Experience.Company, Experience.City,
+                Experience.Country, Experience.BeginDate, Experience.EndDate);
+
+            experience.Validate();
+
+            AddEvent(new CandidateDomainEvent(this, CandidateDomainEventTypes.CandidateUpdatedDomainEvent));
+        }
+        public void RemoveExperiences(IEnumerable<CandidateExperience> Experiences)
+        {
+            foreach (var item in Experiences)
             {
-                RemoveSkill(item);
+                RemoveExperience(item);
             }
         }
+        public void RemoveExperience(CandidateExperience Experience)
+        {
+            var doesntExists = !_experiences.Any(a => a.Role == Experience.Role);
+            if (doesntExists)
+                throw new DomainEntityValidationErrorException($"Candidate: {_firstName} {_lastName} doesn't have {Experience.Role} experience defined.");
+
+            _experiences.Remove(Experience);
+            AddEvent(new CandidateDomainEvent(this, CandidateDomainEventTypes.CandidateRemoveExperienceDomainEvent));
+        }
+        public void RemoveExperience(long Id)
+        {
+            var experience = _experiences.FirstOrDefault(a => a.Id == Id);
+            if (experience == null)
+                throw new DomainEntityValidationErrorException($"Candidate: {_firstName} {_lastName} doesn't have this experience defined.");
+
+            RemoveExperience(experience);
+        }
+        public void CleanExperiences()
+            => _experiences.Clear();
+
+        #endregion
+
+        #region Candidate_Education
+
+        private void AddOrRemoveEducations(IEnumerable<CandidateEducation> Educations)
+        {
+            this.Educations.ToList().ForEach(exp =>
+            {
+                if (!Educations.Any(a => a.Id == exp.Id))
+                    RemoveEducation(exp);
+            });
+            AddOrUpdateEducations(Educations);
+        }
+        private void AddOrUpdateEducations(IEnumerable<CandidateEducation> Educations)
+        {
+            Educations.ToList().ForEach(edu =>
+            {
+                var existingEdu = _educations.FirstOrDefault(a => a.Id == edu.Id || a.Title == edu.Title);
+                if (existingEdu != null)
+                    UpdateEducation(edu);
+                else
+                    AddEducation(edu);
+
+            });
+        }
+        public void AddEducations(IEnumerable<CandidateEducation> Educations)
+        {
+            foreach (var item in Educations)
+            {
+                AddEducation(item);
+            }
+        }
+        public void AddEducation(CandidateEducation Education)
+        {
+            var alreadyExists = _educations.FirstOrDefault(a => a.Id == Education.Id || a.Title == Education.Title);
+            if (alreadyExists != null)
+                throw new DomainEntityValidationErrorException($"Education {Education.Title} already belongs to the Candidate.");
+
+            Education.Validate();
+
+            _educations.AddLast(Education);
+            AddEvent(new CandidateDomainEvent(this, CandidateDomainEventTypes.CandidateAddEducationDomainEvent));
+        }
+        public void UpdateEducation(CandidateEducation Education)
+        {
+            var education = _educations.FirstOrDefault(a => a.Id == Education.Id || a.Title == Education.Title);
+
+            if (education == null)
+                throw new DomainEntityValidationErrorException($"Education {Education.Title} doesn't belong to the Candidate.");
+
+            education.Update(education.Title, education.Description, education.BeginDate, education.EndDate, education.Organization, education.Address);
+
+            AddEvent(new CandidateDomainEvent(this, CandidateDomainEventTypes.CandidateUpdateEducationDomainEvent));
+        }
+        public void RemoveEducations(IEnumerable<CandidateEducation> Educations)
+        {
+            foreach (var item in Educations)
+            {
+                RemoveEducation(item);
+            }
+        }
+        public void RemoveEducation(CandidateEducation Education)
+        {
+            var doesntExists = !_educations.Any(a => a.Title == Education.Title);
+            if (doesntExists)
+                throw new DomainEntityValidationErrorException($"Candidate: {_firstName} {_lastName} doesn't have {Education.Title} education defined.");
+
+            _educations.Remove(Education);
+            AddEvent(new CandidateDomainEvent(this, CandidateDomainEventTypes.CandidateRemoveExperienceDomainEvent));
+        }
+        public void RemoveEducation(long Id)
+        {
+            var education = _educations.FirstOrDefault(a => a.Id == Id);
+            if (education == null)
+                throw new DomainEntityValidationErrorException($"Candidate: {_firstName} {_lastName} doesn't have this education defined.");
+
+            RemoveEducation(education);
+        }
+        public void CleanEducations()
+            => _educations.Clear();
+
+        #endregion
     }
 }

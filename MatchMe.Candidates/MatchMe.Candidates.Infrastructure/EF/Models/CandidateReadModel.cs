@@ -8,6 +8,8 @@ namespace MatchMe.Candidates.Infrastructure.EF.Models
         public CandidateReadModel()
         {
             Skills = new Collection<CandidateSkillReadModel>();
+            Experiencies = new Collection<CandidateExperienceReadModel>();
+            Educations = new Collection<CandidateEducationReadModel>();
         }
         public string FirstName { get;  }
         public string LastName { get;  }
@@ -20,6 +22,8 @@ namespace MatchMe.Candidates.Infrastructure.EF.Models
         public string Email { get;  }
         public GenderEnum Gender { get;  }
         public MaritalStatusEnum MaritalStatus { get;  }
-        public ICollection<CandidateSkillReadModel> Skills { get;  }
+        public ICollection<CandidateSkillReadModel> Skills { get; }
+        public ICollection<CandidateExperienceReadModel> Experiencies { get; }
+        public ICollection<CandidateEducationReadModel> Educations { get; }
     }
 }
