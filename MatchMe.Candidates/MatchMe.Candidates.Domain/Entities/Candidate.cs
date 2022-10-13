@@ -3,7 +3,6 @@ using MatchMe.Candidates.Domain.Entities.Extensions;
 using MatchMe.Candidates.Domain.Events;
 using MatchMe.Common.Shared.Domain;
 using MatchMe.Common.Shared.Domain.ValueObjects;
-using MatchMe.Common.Shared.Exceptions;
 
 namespace MatchMe.Candidates.Domain.Entities
 {
@@ -53,7 +52,7 @@ namespace MatchMe.Candidates.Domain.Entities
             _citizenCardNumber = CitizenCardNumber;
 
             this.Validate();
-            AddEvent(new CandidateDomainEvent(this, "CandidateCreatedDomainEvent"));
+            AddEvent(new CandidateDomainEvent(this, CandidateDomainEventTypes.CandidateCreatedDomainEvent));
         }
     }
 }

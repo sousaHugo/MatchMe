@@ -1,6 +1,4 @@
-﻿using MatchMe.Common.Shared.Integration.Opportunities;
-using MatchMe.Opportunities.Integration.Publishers;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace MatchMe.Opportunities.Domain.Events.Handlers

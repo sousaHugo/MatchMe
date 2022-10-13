@@ -1,6 +1,5 @@
 ﻿using MatchMe.Candidates.Domain.Entities.Extensions;
 using MatchMe.Candidates.Domain.Events;
-using MatchMe.Common.Shared.Domain;
 using MatchMe.Common.Shared.Domain.ValueObjects;
 using MatchMe.Common.Shared.Exceptions;
 
@@ -38,7 +37,7 @@ namespace MatchMe.Candidates.Domain.Entities
 
             AddOrRemoveSkills(Skills);
             this.Validate();
-            AddEvent(new CandidateDomainEvent(this, "CandidateUpdatedDomainEvent"));
+            AddEvent(new CandidateDomainEvent(this, CandidateDomainEventTypes.CandidateUpdatedDomainEvent));
         }
         
         
@@ -53,7 +52,7 @@ namespace MatchMe.Candidates.Domain.Entities
         }
         private void AddOrUpdateSkills(IEnumerable<CandidateSkill> Skills)
         {
-            this.Skills.ToList().ForEach(skill =>
+            Skills.ToList().ForEach(skill =>
             {
                 var existingSkill = _skills.FirstOrDefault(a => a.Id == skill.Id || a.Name == skill.Name);
                 if (existingSkill != null)
@@ -70,7 +69,7 @@ namespace MatchMe.Candidates.Domain.Entities
                 throw new DomainEntityValidationErrorException($"Skill {Skill.Name} already belongs to the Candidate.");
           
             _skills.AddLast(Skill);
-            AddEvent(new CandidateDomainEvent(this, "CandidateAddSkillDomainEvent"));
+            AddEvent(new CandidateDomainEvent(this, CandidateDomainEventTypes.CandidateAddSkillDomainEvent));
         }
         public void UpdateSkill(CandidateSkill Skill)
         {
@@ -80,7 +79,7 @@ namespace MatchMe.Candidates.Domain.Entities
                 throw new DomainEntityValidationErrorException($"Skill {Skill.Name} doesn't belong to the Candidate.");
 
             skill.Update(Skill.Name, Skill.Experience, Skill.Level);
-            AddEvent(new CandidateDomainEvent(this, "CandidateUpdateSkillDomainEvent"));
+            AddEvent(new CandidateDomainEvent(this, CandidateDomainEventTypes.CandidateUpdatedDomainEvent));
         }
         public void RemoveSkill(CandidateSkill Skill)
         {
@@ -89,7 +88,7 @@ namespace MatchMe.Candidates.Domain.Entities
                 throw new DomainEntityValidationErrorException($"Candidate: {_firstName} {_lastName} doesn't have {Skill.Name} skill defined.");
 
             _skills.Remove(Skill);
-            AddEvent(new CandidateDomainEvent(this, "CandidateRemoveSkillDomainEvent"));
+            AddEvent(new CandidateDomainEvent(this, CandidateDomainEventTypes.CandidateRemoveSkillDomainEvent));
         }
         public void RemoveSkill(long Id)
         {
