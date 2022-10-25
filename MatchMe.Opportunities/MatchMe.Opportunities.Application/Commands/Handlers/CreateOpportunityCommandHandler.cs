@@ -39,7 +39,7 @@ namespace MatchMe.Opportunities.Application.Commands.Handlers
 
             await _opportunityRepository.AddAsync(opportunity, CancellationToken);
             
-            _ = _publisher.SendAsync(opportunity.AsOpportunityCreatedDto(), CancellationToken);
+            _publisher.SendMessage(opportunity.AsOpportunityCreatedDto());
             
             return opportunity.Id;
         }

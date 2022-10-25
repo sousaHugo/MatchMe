@@ -3,11 +3,11 @@ using MatchMe.Candidates.Application.Services;
 using MatchMe.Candidates.Domain.Entities;
 using MatchMe.Candidates.Domain.Entities.Extensions;
 using MatchMe.Candidates.Domain.Repositories;
-using MatchMe.Candidates.Integration.Publishers;
 using MatchMe.Common.Shared.Commands;
 using MatchMe.Common.Shared.Domain.ValueObjects;
 using MatchMe.Common.Shared.Exceptions;
 using MatchMe.Candidates.Application.Mapping;
+using MatchMe.Candidates.Integration.Publishers;
 
 namespace MatchMe.Candidates.Application.Commands.Handlers
 {
@@ -41,7 +41,7 @@ namespace MatchMe.Candidates.Application.Commands.Handlers
 
             await _candidateRepository.AddAsync(candidate, CancellationToken);
 
-            _ = _publisher.SendAsync(candidate.AsCandidateCreatedDto(), CancellationToken);
+            _publisher.SendMessage(candidate.AsCandidateCreatedMessageDto());
 
             return candidate.Id;
         }

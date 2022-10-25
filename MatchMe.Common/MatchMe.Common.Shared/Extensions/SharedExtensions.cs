@@ -1,4 +1,5 @@
-﻿using MatchMe.Common.Shared.Middleware;
+﻿using MatchMe.Common.Shared.Integration;
+using MatchMe.Common.Shared.Middleware;
 using MatchMe.Common.Shared.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;

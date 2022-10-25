@@ -1,12 +1,10 @@
 using Mapster;
 using MatchMe.Candidates.Application;
 using MatchMe.Candidates.Application.Dto.Candidates.Mappings;
-using MatchMe.Candidates.Domain.Events;
 using MatchMe.Candidates.Infrastructure;
+using MatchMe.Candidates.Integration;
 using MatchMe.Common.Shared.Domain;
 using MatchMe.Common.Shared.Extensions;
-using MatchMe.Common.Shared.Integration.Opportunities;
-using MatchMe.Common.Shared.MassTransitRabbitMq;
 using MatchMe.Common.Shared.MongoDb;
 using MediatR;
 using System.Reflection;
@@ -19,15 +17,11 @@ builder.Services.AddControllers(options =>
     options.SuppressAsyncSuffixInActionNames = false;
 }).AddNewtonsoftJson();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddMongo()
-    .AddMongoRepository<DomainEvent>("Events");
-
+builder.Services.AddJwtAuthentication("MatchMe.Candidates.Api", "v1");
+builder.Services.AddMongo().AddMongoRepository<DomainEvent>("Events");
 builder.Services.AddMediatR(typeof(Program));
-builder.Services.AddMassTransitWithRabbitMq();
 builder.Services.AddShared();
+builder.Services.AddIntegration();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
@@ -46,6 +40,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseShared();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

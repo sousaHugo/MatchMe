@@ -140,6 +140,9 @@ namespace MatchMe.Candidates.Infrastructure.EF.Migrations
                     b.Property<string>("Nationality")
                         .HasColumnType("text");
 
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("Candidate", "candidates");

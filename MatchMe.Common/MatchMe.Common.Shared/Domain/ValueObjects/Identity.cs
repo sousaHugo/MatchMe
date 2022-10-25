@@ -3,7 +3,9 @@
     public record Identity
     {
         public long Value { get; }
-
+        public Identity()
+        {
+        }
         public Identity(long Value)
         {
             this.Value = Value;

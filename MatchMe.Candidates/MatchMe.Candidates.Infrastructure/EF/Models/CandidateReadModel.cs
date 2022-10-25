@@ -25,5 +25,6 @@ namespace MatchMe.Candidates.Infrastructure.EF.Models
         public ICollection<CandidateSkillReadModel> Skills { get; }
         public ICollection<CandidateExperienceReadModel> Experiencies { get; }
         public ICollection<CandidateEducationReadModel> Educations { get; }
+        public int Version { get; set; }
     }
 }

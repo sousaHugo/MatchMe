@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit" Version="8.0.6" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\MatchMe.Common\MatchMe.Common.Shared\MatchMe.Common.Shared.csproj" />
   </ItemGroup>
 

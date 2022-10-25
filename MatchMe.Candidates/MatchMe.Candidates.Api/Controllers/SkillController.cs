@@ -4,12 +4,14 @@ using MatchMe.Candidates.Application.Dto;
 using MatchMe.Candidates.Application.Dto.CandidatesSkill.Extensions;
 using MatchMe.Candidates.Application.Services;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MatchMe.Candidates.Api.Controllers
 {
     [ApiController]
     [Route("api/candidate/[controller]")]
+    [Authorize]
     public class SkillController : ControllerBase
     {
         private readonly IMediator _mediator;

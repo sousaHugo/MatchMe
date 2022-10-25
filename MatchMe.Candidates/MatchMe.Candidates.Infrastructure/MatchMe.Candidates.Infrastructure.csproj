@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MatchMe.Candidates.Application\MatchMe.Candidates.Application.csproj" />
+    <Folder Include="EF\Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EF\Migrations\" />
+    <ProjectReference Include="..\MatchMe.Candidates.Application\MatchMe.Candidates.Application.csproj" />
   </ItemGroup>
 
 </Project>

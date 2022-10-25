@@ -55,6 +55,7 @@ namespace MatchMe.Candidates.Infrastructure.EF.Config
         public void Configure(EntityTypeBuilder<CandidateExperienceReadModel> builder)
         {
             builder.ToTable(nameof(CandidateExperience));
+            builder.HasKey(x => x.Id);
             builder.Property(a => a.Role);
             builder.Property(a => a.Company);
             builder.Property(a => a.City);
@@ -68,6 +69,7 @@ namespace MatchMe.Candidates.Infrastructure.EF.Config
         public void Configure(EntityTypeBuilder<CandidateEducationReadModel> builder)
         {
             builder.ToTable(nameof(CandidateEducation));
+            builder.HasKey(x => x.Id);
             builder.Property(a => a.Title).IsRequired();
             builder.Property(a => a.Organization).IsRequired();
             builder.OwnsOne(x => x.Address, y =>

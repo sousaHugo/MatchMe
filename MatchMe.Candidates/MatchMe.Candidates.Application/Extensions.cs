@@ -14,7 +14,6 @@ namespace MatchMe.Candidates.Application
         {
             ServiceCollection.AddCommands();
             ServiceCollection.AddTransient<INotificationHandler<CandidateDomainEvent>, CandidateEventHandler>();
-            ServiceCollection.AddTransient<ICandidateCreatedPublisher, CandidateCreatedPublisher>();
 
             return ServiceCollection;
         }

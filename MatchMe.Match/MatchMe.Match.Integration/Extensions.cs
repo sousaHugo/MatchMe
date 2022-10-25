@@ -1,8 +1,8 @@
-﻿using MatchMe.Common.Shared.Integration.Opportunities;
-using MatchMe.Common.Shared.MassTransitRabbitMq;
-using MatchMe.Common.Shared.MongoDb;
+﻿using MatchMe.Common.Shared.Integration;
+using MatchMe.Match.Integration.Consumers.Candidates;
+using MatchMe.Match.Integration.Consumers.Opportunities;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+
 
 namespace MatchMe.Match.Integration
 {
@@ -10,8 +10,9 @@ namespace MatchMe.Match.Integration
     {
         public static IServiceCollection AddIntegration(this IServiceCollection services)
         {
-            services.AddMassTransitWithRabbitMq(Assembly.GetAssembly(typeof(Extensions)));
-
+            services.AddSingleton<IRabbitMQConsumer, RabbitMQConsumer>();
+            services.AddHostedService<CandidateCreatedConsumer>();
+            services.AddHostedService<OpportunityCreatedConsumer>();
             return services;
         }
     }

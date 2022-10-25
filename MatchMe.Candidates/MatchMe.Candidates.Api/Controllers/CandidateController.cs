@@ -4,12 +4,14 @@ using MatchMe.Candidates.Application.Dto.Candidates.Extensions;
 using MatchMe.Candidates.Application.Mapping;
 using MatchMe.Candidates.Application.Services;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MatchMe.Candidates.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class CandidateController : ControllerBase
     {
         private readonly IMediator _mediator;

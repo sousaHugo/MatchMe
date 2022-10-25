@@ -19,6 +19,12 @@ services:
       context: .
       dockerfile: ../MatchMe.Match/MatchMe.Match.Api/Dockerfile  
 
+  matchme.identity.server:
+    image: ${DOCKER_REGISTRY-}matchmeidentityserver
+    build:
+      context: .
+      dockerfile: ../MatchMe.Identity/MatchMe.Identity.IdentityServer/Dockerfile
+  
   mongo:
     image: mongo
     container_name: mongo
@@ -58,6 +64,8 @@ services:
       - "5050:80"
 volumes:
   mongodbdata:
+  dataroot:
+  datasecrets:
   rabbitmqdata:
   postgresdb:
     driver: local

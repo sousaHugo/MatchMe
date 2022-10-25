@@ -21,8 +21,6 @@ namespace MatchMe.Opportunities.Application
             ServiceCollection.AddTransient<INotificationHandler<OpportunitySkillUpdateEvent>, OpportunitySkillEventHandler>();
             ServiceCollection.AddTransient<INotificationHandler<OpportunityUpdateEvent>, OpportunityEventHandler>();
 
-            ServiceCollection.AddTransient<IOpportunityCreatedPublisher, OpportunityCreatedPublisher>();
-
             return ServiceCollection;
         }
     }

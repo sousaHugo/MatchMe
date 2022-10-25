@@ -6,13 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdGen" Version="3.0.2" />
-    <PackageReference Include="Mapster" Version="7.3.0" />
-    <PackageReference Include="MediatR" Version="10.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\MatchMe.Common\MatchMe.Common.Shared\MatchMe.Common.Shared.csproj" />
+    <ProjectReference Include="..\MatchMe.Candidates.Integration\MatchMe.Candidates.Integration.csproj" />
   </ItemGroup>
 
 </Project>

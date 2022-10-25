@@ -1,15 +1,18 @@
-﻿using MassTransit;
-using MatchMe.Common.Shared.Integration.Opportunities;
+﻿using MatchMe.Common.Shared.Integration;
+using MatchMe.Opportunities.Integration.Messages;
 
 namespace MatchMe.Opportunities.Integration.Publishers
 {
     public class OpportunityCreatedPublisher : IOpportunityCreatedPublisher
     {
-        private readonly IPublishEndpoint _publishEndpoint;
-        public OpportunityCreatedPublisher(IPublishEndpoint PublishEndpoint) => _publishEndpoint = PublishEndpoint;
-        public Task SendAsync(OpportunityCreatedDto OpportunityCreatedDto, CancellationToken CancellationToken = default)
+        private readonly IRabbitMQSender _publisher;
+        public OpportunityCreatedPublisher(IRabbitMQSender Publisher)
         {
-            return _publishEndpoint.Publish(OpportunityCreatedDto, CancellationToken);
+            _publisher = Publisher;
+        }
+        public void SendMessage(OpportunityCreatedMessageDto MessageDto)
+        {
+            _publisher.SendMessage(MessageDto, nameof(OpportunityCreatedMessageDto));
         }
     }
 }

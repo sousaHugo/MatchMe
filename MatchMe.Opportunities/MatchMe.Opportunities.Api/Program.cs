@@ -1,10 +1,7 @@
 using MatchMe.Common.Shared.Extensions;
-using MatchMe.Common.Shared.MassTransitRabbitMq;
 using MatchMe.Opportunities.Application;
-using MatchMe.Opportunities.Domain;
-using MatchMe.Opportunities.Domain.Events;
-using MatchMe.Opportunities.Domain.Events.Handlers;
 using MatchMe.Opportunities.Infrastructure;
+using MatchMe.Opportunities.Integration;
 using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,12 +12,10 @@ builder.Services.AddControllers(options =>
 
 }).AddNewtonsoftJson();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddJwtAuthentication("MatchMe.Opportunities.Api", "v1");
 
 builder.Services.AddMediatR(typeof(Program));
-builder.Services.AddMassTransitWithRabbitMq();
+builder.Services.AddIntegration();
 builder.Services.AddShared();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -37,6 +32,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseShared();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -24,6 +24,9 @@ namespace MatchMe.Candidates.Infrastructure.EF.Contexts
             var configuration = new WriteConfiguration();
             ModelBuilder.ApplyConfiguration<Candidate>(configuration);
             ModelBuilder.ApplyConfiguration<CandidateSkill>(configuration);
+            ModelBuilder.ApplyConfiguration<CandidateEducation>(configuration);
+            ModelBuilder.ApplyConfiguration<CandidateExperience>(configuration);
+
 
             base.OnModelCreating(ModelBuilder);
 
@@ -46,7 +49,7 @@ namespace MatchMe.Candidates.Infrastructure.EF.Contexts
 
                 _logger.LogInformation("New domain event {Event}", @event.GetType().Name);
 
-                await _publisher.Publish(@event, cancellationToken);
+                //await _publisher.Publish(@event, cancellationToken);
             }
 
             return result;

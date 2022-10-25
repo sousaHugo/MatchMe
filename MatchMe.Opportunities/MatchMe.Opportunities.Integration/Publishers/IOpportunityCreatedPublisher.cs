@@ -1,9 +1,9 @@
-﻿using MatchMe.Common.Shared.Integration.Opportunities;
+﻿using MatchMe.Opportunities.Integration.Messages;
 
 namespace MatchMe.Opportunities.Integration.Publishers
 {
     public interface IOpportunityCreatedPublisher
     {
-        Task SendAsync(OpportunityCreatedDto OpportunityCreatedDto, CancellationToken CancellationToken = default);
+        void SendMessage(OpportunityCreatedMessageDto MessageDto);
     }
 }
