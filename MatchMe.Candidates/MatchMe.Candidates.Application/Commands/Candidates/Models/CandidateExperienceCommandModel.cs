@@ -1,6 +1,6 @@
 ﻿namespace MatchMe.Candidates.Application.Commands.Candidates.Models
 {
-    public record CandidateExperienceCommandWriteModel
+    public record CandidateExperienceCommandModel
     {
         public long Id { get; init; }
         public string Role { get; init; }
@@ -12,7 +12,7 @@
         public string Description { get; init; }
         public string Responsibilities { get; init; }
 
-        public CandidateExperienceCommandWriteModel(long Id, string Role, string Company, string City, string Country, DateTime BeginDate,
+        public CandidateExperienceCommandModel(long Id, string Role, string Company, string City, string Country, DateTime BeginDate,
            DateTime? EndDate, string Description, string Responsibilities)
         {
             this.Id = Id;
@@ -25,7 +25,7 @@
             this.Description = Description;
             this.Responsibilities = Responsibilities;
         }
-        public CandidateExperienceCommandWriteModel(string Role, string Company, string City, string Country, DateTime BeginDate,
+        public CandidateExperienceCommandModel(string Role, string Company, string City, string Country, DateTime BeginDate,
             DateTime? EndDate, string Description, string Responsibilities)
         {
             this.Role = Role;

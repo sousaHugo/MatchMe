@@ -15,15 +15,6 @@ namespace MatchMe.Opportunities.Domain.Entities.Extensions
 
             if (!validationResult.IsValid)
                 throw new DomainEntitiesException($"The following errors ocurred on the {nameof(Opportunity)} Domain:", validationResult.ToDomainEntityValidationException());
-        }
-
-        public static OpportunityCreatedMessageDto AsOpportunityCreatedDto(this Opportunity Opportunity)
-        {
-            return new OpportunityCreatedMessageDto(Opportunity.Id, Opportunity.Title, Opportunity.Reference, Opportunity.Description,
-                Opportunity.ClientId, Opportunity.Responsible, Opportunity.Location, Opportunity.Status, Opportunity.BeginDate,
-                Opportunity.EndDate, Opportunity.MinSalaryYear, Opportunity.MaxSalaryYear, Opportunity.MinExperienceMonth,
-                Opportunity.MaxExperienceMonth, Opportunity.Skills.Select(a => new OpportunitySkillCreatedMessageDto(a.Id, a.Name,
-                a.MinExperience, a.MaxExperience, a.Level, a.Mandatory)));
-        }
+        }      
     }
 }

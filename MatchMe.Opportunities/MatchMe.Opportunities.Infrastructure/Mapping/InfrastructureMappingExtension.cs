@@ -1,20 +1,17 @@
 ﻿using MatchMe.Opportunities.Application.Dto.Opportunity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MatchMe.Opportunities.Application.Dto.OpportunitySkill;
+using MatchMe.Opportunities.Infrastructure.EF.Models;
 
-namespace MatchMe.Opportunities.Infrastructure.EF.Models.Mapping
+namespace MatchMe.Opportunities.Infrastructure.Mapping
 {
-    public static class OpportunityReadModelMappingConfig
+    public static class InfrastructureMappingExtension
     {
         public static OpportunityGetDto AsOpportunityGetDto(this OpportunityReadModel OpportunityReadModel)
         {
             return new OpportunityGetDto()
             {
                 Id = OpportunityReadModel.Id,
-                BeginDate = OpportunityReadModel.BeginDate, 
+                BeginDate = OpportunityReadModel.BeginDate,
                 ClientId = OpportunityReadModel.ClientId,
                 Description = OpportunityReadModel.Description,
                 EndDate = OpportunityReadModel.EndDate,
@@ -51,5 +48,23 @@ namespace MatchMe.Opportunities.Infrastructure.EF.Models.Mapping
                 Skills = OpportunityReadModel.Skills.AsOpportunitySkillDto()
             };
         }
+
+        public static OpportunitySkillDto AsOpportunitySkillDto(this OpportunitySkillReadModel OpportunitySkillReadModel)
+        {
+            return new OpportunitySkillDto()
+            {
+                Id = OpportunitySkillReadModel.Id,
+                Mandatory = OpportunitySkillReadModel.Mandatory,
+                Name = OpportunitySkillReadModel.Name,
+                MinExperience = OpportunitySkillReadModel.MinExperience,
+                MaxExperience = OpportunitySkillReadModel.MaxExperience,
+                OpportunityId = OpportunitySkillReadModel.OpportunityId
+            };
+        }
+        public static IEnumerable<OpportunitySkillDto> AsOpportunitySkillDto(this IEnumerable<OpportunitySkillReadModel> OpportunitySkillReadModelList)
+        {
+            return OpportunitySkillReadModelList.Select(a => a.AsOpportunitySkillDto()).AsEnumerable();
+        }
+
     }
 }

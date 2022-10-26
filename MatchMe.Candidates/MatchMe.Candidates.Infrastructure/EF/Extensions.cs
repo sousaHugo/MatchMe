@@ -4,7 +4,9 @@ using MatchMe.Candidates.Infrastructure.EF.Contexts;
 using MatchMe.Candidates.Infrastructure.EF.Options;
 using MatchMe.Candidates.Infrastructure.EF.Repositories;
 using MatchMe.Candidates.Infrastructure.EF.Services;
+using MatchMe.Common.Shared.Domain;
 using MatchMe.Common.Shared.Extensions;
+using MatchMe.Common.Shared.MongoDb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +25,7 @@ namespace MatchMe.Candidates.Infrastructure.EF
 
             ServiceCollection.AddDbContext<ReadDbContext>(ctx => ctx.UseNpgsql(dbOptions.DefaultConnection));
             ServiceCollection.AddDbContext<WriteDbContext>(ctx => ctx.UseNpgsql(dbOptions.DefaultConnection));
+            ServiceCollection.AddMongo().AddMongoRepository<DomainEvent>("Events");
 
             return ServiceCollection;
         }

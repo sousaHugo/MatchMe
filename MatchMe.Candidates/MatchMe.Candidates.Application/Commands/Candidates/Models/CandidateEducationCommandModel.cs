@@ -1,15 +1,15 @@
 ﻿namespace MatchMe.Candidates.Application.Commands.Candidates.Models
 {
-    public record CandidateEducationCommandWriteModel
+    public record CandidateEducationCommandModel
     {
         public long Id { get; init; }
         public string Title { get; init; }
         public string Organization { get; init; }
-        public CandidateAddressCommandWriteModel Address { get; init; }
+        public CandidateAddressCommandModel Address { get; init; }
         public DateTime BeginDate { get; init; }
         public DateTime? EndDate { get; init; }
         public string Description { get; init; }
-        public CandidateEducationCommandWriteModel(long Id, string Title, string Organization, CandidateAddressCommandWriteModel Address,
+        public CandidateEducationCommandModel(long Id, string Title, string Organization, CandidateAddressCommandModel Address,
            DateTime BeginDate, DateTime? EndDate, string Description)
         {
             this.Id = Id;
@@ -20,7 +20,7 @@
             this.EndDate = EndDate;
             this.Description = Description;
         }
-        public CandidateEducationCommandWriteModel(string Title, string Organization, CandidateAddressCommandWriteModel Address,
+        public CandidateEducationCommandModel(string Title, string Organization, CandidateAddressCommandModel Address,
             DateTime BeginDate, DateTime? EndDate, string Description)
         {
             this.Title = Title;

@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using MatchMe.Common.Shared.Commands;
 using MatchMe.Common.Shared.Exceptions;
+using MatchMe.Opportunities.Application.Mapping;
 using MatchMe.Opportunities.Application.Services;
 using MatchMe.Opportunities.Domain.Entities;
 using MatchMe.Opportunities.Domain.Entities.Extensions;
@@ -25,13 +26,13 @@ namespace MatchMe.Opportunities.Application.Commands.Handlers
 
         public async Task<long> Handle(CreateOpportunityCommand Request, CancellationToken CancellationToken)
         {
-            if(Request.OpportunityCreateDto is null)
+            if(Request is null)
                 throw new ApplicationEntityInvalidException(nameof(Opportunity));
 
-            if (await _opportunityReadService.ExistsByTitleAsync(Request.OpportunityCreateDto.Title))
-                throw new ApplicationEntityAlreadyExistsException(nameof(Opportunity), "Title", Request.OpportunityCreateDto.Title);
+            if (await _opportunityReadService.ExistsByTitleAsync(Request.Title))
+                throw new ApplicationEntityAlreadyExistsException(nameof(Opportunity), "Title", Request.Title);
 
-            var opportunityDto = Request.OpportunityCreateDto;
+            var opportunityDto = Request;
 
             var opportunity = Opportunity.Create(opportunityDto.Title, opportunityDto.Description, opportunityDto.ClientId, opportunityDto.Responsible,
                 opportunityDto.Location, opportunityDto.BeginDate, opportunityDto.EndDate, opportunityDto.MinSalaryYear, opportunityDto.MaxSalaryYear,

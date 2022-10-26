@@ -20,15 +20,15 @@ namespace MatchMe.Opportunities.Application.Commands.Handlers
 
         public async Task<long> Handle(UpdateOpportunityCommand Request, CancellationToken CancellationToken)
         {
-            if (Request.OpportunityUpdateDto is null)
+            if (Request is null)
                 throw new ApplicationEntityInvalidException(nameof(Opportunity));
 
-            var opportunityEf = await _opportunityRepository.GetAsync(Request.OpportunityUpdateDto.Id, CancellationToken);
+            var opportunityEf = await _opportunityRepository.GetAsync(Request.Id, CancellationToken);
 
             if (opportunityEf == null)
-                throw new ApplicationEntityNotFoundException(nameof(Opportunity), Request.OpportunityUpdateDto.Id.ToString());
+                throw new ApplicationEntityNotFoundException(nameof(Opportunity), Request.Id.ToString());
 
-            var opportunityUpdateDto = Request.OpportunityUpdateDto;
+            var opportunityUpdateDto = Request;
 
             opportunityEf.Update(opportunityUpdateDto.Title, opportunityUpdateDto.Description, opportunityUpdateDto.ClientId,
                 opportunityUpdateDto.Responsible, opportunityUpdateDto.Location, opportunityUpdateDto.BeginDate, opportunityUpdateDto.EndDate,

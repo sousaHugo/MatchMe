@@ -9,8 +9,4 @@
     <ProjectReference Include="..\MatchMe.Opportunities.Domain\MatchMe.Opportunities.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dto\External\" />
-  </ItemGroup>
-
 </Project>

@@ -14,12 +14,7 @@ namespace MatchMe.Opportunities.Application
         public static IServiceCollection AddApplication(this IServiceCollection ServiceCollection)
         {
             ServiceCollection.AddCommands();
-            
-            ServiceCollection.AddTransient<INotificationHandler<OpportunityCreateEvent>, OpportunityEventHandler>();
-            ServiceCollection.AddTransient<INotificationHandler<OpportunitySkillAddedEvent>, OpportunitySkillEventHandler>();
-            ServiceCollection.AddTransient<INotificationHandler<OpportunitySkillRemoveEvent>, OpportunitySkillEventHandler>();
-            ServiceCollection.AddTransient<INotificationHandler<OpportunitySkillUpdateEvent>, OpportunitySkillEventHandler>();
-            ServiceCollection.AddTransient<INotificationHandler<OpportunityUpdateEvent>, OpportunityEventHandler>();
+            ServiceCollection.AddTransient<INotificationHandler<OpportunityDomainEvent>, OpportunityEventHandler>();
 
             return ServiceCollection;
         }

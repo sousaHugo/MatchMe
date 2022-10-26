@@ -2,7 +2,7 @@
 using MatchMe.Candidates.Application.Services;
 using MatchMe.Candidates.Infrastructure.EF.Contexts;
 using MatchMe.Candidates.Infrastructure.EF.Models;
-using MatchMe.Candidates.Infrastructure.EF.Models.Mapping;
+using MatchMe.Candidates.Infrastructure.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace MatchMe.Candidates.Infrastructure.EF.Services

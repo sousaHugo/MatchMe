@@ -60,7 +60,7 @@ namespace MatchMe.Opportunities.Domain.Entities
             _maxExperienceMonth = MaxExperienceMonth;
 
             this.Validate();
-            AddEvent(new OpportunityCreateEvent(this));
+            AddEvent(new OpportunityDomainEvent(this, OpportunityDomainEventType.OpportunityCreatedDomainEvent));
         }
     }
 }

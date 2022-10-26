@@ -1,33 +1,20 @@
-using Mapster;
 using MatchMe.Candidates.Application;
-using MatchMe.Candidates.Application.Dto.Candidates.Mappings;
 using MatchMe.Candidates.Infrastructure;
 using MatchMe.Candidates.Integration;
-using MatchMe.Common.Shared.Domain;
 using MatchMe.Common.Shared.Extensions;
-using MatchMe.Common.Shared.MongoDb;
 using MediatR;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers(options =>
-{
-    options.SuppressAsyncSuffixInActionNames = false;
-}).AddNewtonsoftJson();
-
+builder.Services.AddControllers(options => { options.SuppressAsyncSuffixInActionNames = false; }).AddNewtonsoftJson();
 builder.Services.AddJwtAuthentication("MatchMe.Candidates.Api", "v1");
-builder.Services.AddMongo().AddMongoRepository<DomainEvent>("Events");
 builder.Services.AddMediatR(typeof(Program));
 builder.Services.AddShared();
 builder.Services.AddIntegration();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
-
-CandidateToCandidateDtoMapperConfig.Configure();
-TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 

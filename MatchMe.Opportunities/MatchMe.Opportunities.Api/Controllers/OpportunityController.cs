@@ -2,6 +2,7 @@
 using MatchMe.Opportunities.Application.Dto.Opportunity;
 using MatchMe.Opportunities.Application.Dto.Opportunity.Extensions;
 using MatchMe.Opportunities.Application.Dto.OpportunitySkill;
+using MatchMe.Opportunities.Application.Mapping;
 using MatchMe.Opportunities.Application.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -56,7 +57,7 @@ namespace MatchMe.Opportunities.Api.Controllers
             if (!requestValidation.IsValid)
                 return BadRequest(requestValidation.Response);
 
-            var createdOpportunity = await _mediator.Send(new CreateOpportunityCommand(RequestDto));
+            var createdOpportunity = await _mediator.Send(RequestDto.AsCreateOpportunityCommand());
 
             return CreatedAtAction(nameof(GetByIdAsync), new { id = createdOpportunity }, RequestDto);
         }
@@ -68,7 +69,7 @@ namespace MatchMe.Opportunities.Api.Controllers
             if (!requestValidation.IsValid)
                 return BadRequest(requestValidation.Response);
 
-            var createdOpportunity = await _mediator.Send(new CreateOpportunityWithDetailsCommand(RequestDto));
+            var createdOpportunity = await _mediator.Send(RequestDto.AsCreateOpportunityWithDetailsCommand());
 
             return CreatedAtAction(nameof(GetByIdAsync), new { id = createdOpportunity }, RequestDto);
         }
@@ -83,7 +84,7 @@ namespace MatchMe.Opportunities.Api.Controllers
                 return BadRequest(requestValidation.Response);
 
 
-            await _mediator.Send(new UpdateOpportunityCommand(RequestDto));
+            await _mediator.Send(RequestDto.AsUpdateOpportunityCommand());
 
             return NoContent();
         }

@@ -3,7 +3,7 @@ using MatchMe.Opportunities.Application.Dto.OpportunitySkill;
 using MatchMe.Opportunities.Application.Services;
 using MatchMe.Opportunities.Infrastructure.EF.Contexts;
 using MatchMe.Opportunities.Infrastructure.EF.Models;
-using MatchMe.Opportunities.Infrastructure.EF.Models.Mapping;
+using MatchMe.Opportunities.Infrastructure.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace MatchMe.Opportunities.Infrastructure.EF.Services

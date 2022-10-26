@@ -1,5 +1,6 @@
-﻿using IdGen;
-using MatchMe.Candidates.Domain.Entities;
+﻿using MatchMe.Candidates.Domain.Entities;
+using MatchMe.Candidates.Domain.Events.Models;
+using MatchMe.Candidates.Domain.Mapping;
 using MatchMe.Common.Shared.Domain;
 
 namespace MatchMe.Candidates.Domain.Events
@@ -10,11 +11,9 @@ namespace MatchMe.Candidates.Domain.Events
 
         public CandidateDomainEvent(Candidate Candidate, string EventType)
         {
-            this.Candidate = Candidate;
+            this.Candidate = Candidate.AsCandidateDEModel();
             Type = EventType;
         }
-        public Candidate Candidate { get; protected set; }
-
-       
+        public CandidateDEModel Candidate { get; protected set; }
     }
 }

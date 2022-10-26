@@ -9,13 +9,13 @@ namespace MatchMe.Candidates.Application.Commands.Candidates
         string FiscalNumber, 
         string CitizenCardNumber,
         DateTime DateOfBirth, 
-        CandidateAddressCommandWriteModel Address, 
+        CandidateAddressCommandModel Address, 
         string Nationality, string MobilePhone, 
         string Email, GenderEnum Gender,
         MaritalStatusEnum MaritalStatus, 
-        IEnumerable<CandidateSkillCommandWriteModel> Skills, 
-        IEnumerable<CandidateEducationCommandWriteModel> Educations,
-        IEnumerable<CandidateExperienceCommandWriteModel> Experiences) : IRequest<long>;
+        IEnumerable<CandidateSkillCommandModel> Skills, 
+        IEnumerable<CandidateEducationCommandModel> Educations,
+        IEnumerable<CandidateExperienceCommandModel> Experiences) : IRequest<long>;
 
     
 }

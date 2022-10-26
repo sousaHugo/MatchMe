@@ -6,14 +6,8 @@ using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(options =>
-{
-    options.SuppressAsyncSuffixInActionNames = false;
-
-}).AddNewtonsoftJson();
-
+builder.Services.AddControllers(options => { options.SuppressAsyncSuffixInActionNames = false; }).AddNewtonsoftJson();
 builder.Services.AddJwtAuthentication("MatchMe.Opportunities.Api", "v1");
-
 builder.Services.AddMediatR(typeof(Program));
 builder.Services.AddIntegration();
 builder.Services.AddShared();
@@ -22,7 +16,6 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

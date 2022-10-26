@@ -40,7 +40,7 @@ namespace MatchMe.Opportunities.Domain.Entities
 
             UpdateSkills(Skills);
             this.Validate();
-            AddEvent(new OpportunityUpdateEvent(this));
+            AddEvent(new OpportunityDomainEvent(this, OpportunityDomainEventType.UpdatedDomainEvent));
         }
         private void UpdateSkills(IEnumerable<OpportunitySkill> Skills)
         {
@@ -77,7 +77,7 @@ namespace MatchMe.Opportunities.Domain.Entities
                 throw new DomainEntityAlreadyExistsException(nameof(OpportunitySkill), "Skill", Skill.Name);
 
             _skills.AddLast(Skill);
-            AddEvent(new OpportunitySkillAddedEvent(Skill, this.Title));
+            AddEvent(new OpportunityDomainEvent(this, OpportunityDomainEventType.OpportunityAddSkillDomainEvent));
         }
         public void AddSkills(IEnumerable<OpportunitySkill> Skills)
         {
@@ -93,7 +93,7 @@ namespace MatchMe.Opportunities.Domain.Entities
             var newSkill = skill.Update(Skill.Name, Skill.MinExperience, Skill.MaxExperience, Skill.Level, Skill.Mandatory);
 
             _skills.Find(skill).Value = newSkill;
-            AddEvent(new OpportunitySkillUpdateEvent(skill, this.Title));
+            AddEvent(new OpportunityDomainEvent(this, OpportunityDomainEventType.OpportunityUpdateSkillDomainEvent));
         }
         public void RemoveSkill(OpportunitySkill Skill)
         {
@@ -101,7 +101,7 @@ namespace MatchMe.Opportunities.Domain.Entities
 
             _skills.Remove(Skill);
 
-            AddEvent(new OpportunitySkillRemoveEvent(skill, this.Title));
+            AddEvent(new OpportunityDomainEvent(this, OpportunityDomainEventType.OpportunityRemoveSkillDomainEvent));
         }
         private OpportunitySkill GetSkill(OpportunitySkill Skill)
         {
